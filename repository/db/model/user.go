@@ -13,7 +13,7 @@ type User struct {
 }
 
 const (
-	PassWordCost = 12 //密码加密难度(一般为 10~14)
+	PassWordCost = 12
 )
 
 // SetPassword 设置密码

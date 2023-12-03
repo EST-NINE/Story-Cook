@@ -21,6 +21,9 @@ func NewRouter() *gin.Engine {
 		v1.POST("user/register", api.UserRegisterHandler())
 		v1.POST("user/login", api.UserLoginHandler())
 
+		{
+
+		}
 	}
 
 	return r

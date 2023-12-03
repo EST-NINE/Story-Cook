@@ -22,7 +22,7 @@ func UserRegisterHandler() gin.HandlerFunc {
 		server := service.GetUserSrv()
 		resp, err := server.Register(ctx.Request.Context(), &req)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
+			ctx.JSON(http.StatusOK, ErrorResponse(err))
 			return
 		}
 		ctx.JSON(http.StatusOK, resp)
@@ -44,7 +44,7 @@ func UserLoginHandler() gin.HandlerFunc {
 		server := service.GetUserSrv()
 		resp, err := server.Login(ctx.Request.Context(), &req)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, ErrorResponse(err))
+			ctx.JSON(http.StatusOK, ErrorResponse(err))
 			return
 		}
 		ctx.JSON(http.StatusOK, resp)

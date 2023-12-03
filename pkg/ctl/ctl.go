@@ -16,8 +16,8 @@ type DataListResp struct {
 	Total int64       `json:"total"`
 }
 
-// RespList 带有总数的列表构建器
-func RespList(items interface{}, total int64) Response {
+// ListResp 带有总数的列表构建器
+func ListResp(items interface{}, total int64) Response {
 	return Response{
 		Status: 200,
 		Data: DataListResp{

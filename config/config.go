@@ -23,7 +23,7 @@ var (
 )
 
 func InitFile() {
-	file, err := ini.Load("../config/config.ini")
+	file, err := ini.Load("./config/config.ini")
 	if err != nil {
 		util.LogrusObj.Println(err)
 		panic(err)

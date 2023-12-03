@@ -23,7 +23,7 @@ func GenerateToken(id uint, username string) (string, error) {
 		Username: username,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
-			Issuer:    "to-do-list",
+			Issuer:    "SparkForge",
 		},
 	}
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)

@@ -2,7 +2,6 @@ package service
 
 import (
 	"SparkForge/pkg/ctl"
-	"SparkForge/pkg/e"
 	"SparkForge/pkg/util"
 	"SparkForge/repository/db/dao"
 	"SparkForge/repository/db/model"
@@ -86,6 +85,7 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp inte
 	return ctl.SuccessWithDataResp(uResp), nil
 }
 
+// UpdatePwd 用户更改密码
 func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdateSerReq) (resp interface{}, err error) {
 	// 找到用户
 	userInfo, err := ctl.GetUserInfo(c)
@@ -115,8 +115,5 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdateSerReq) (res
 		return nil, err
 	}
 
-	return ctl.Response{
-		Status: e.SUCCESS,
-		Msg:    "修改成功!",
-	}, nil
+	return ctl.SuccessResp(), nil
 }

@@ -4,6 +4,7 @@ import (
 	"SparkForge/pkg/ctl"
 	"SparkForge/pkg/e"
 	"SparkForge/pkg/util"
+	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -16,12 +17,8 @@ func JWT() gin.HandlerFunc {
 		code = e.SUCCESS
 		token := c.GetHeader("Authorization")
 		if token == "" {
-			code = e.ErrorAuthCheckTokenTimeout
-			c.JSON(http.StatusBadRequest, gin.H{
-				"status": code,
-				"msg":    e.GetMsg(code),
-				"data":   "缺少Token(-.-)",
-			})
+			code = e.ErrorAuthCheckTokenFail
+			c.JSON(http.StatusBadRequest, ctl.ErrorResp(errors.New("empty"), e.GetMsg(code), code))
 			c.Abort()
 			return
 		}
@@ -34,11 +31,7 @@ func JWT() gin.HandlerFunc {
 		}
 
 		if code != e.SUCCESS {
-			c.JSON(e.InvalidParams, gin.H{
-				"status": code,
-				"msg":    e.GetMsg(code),
-				"data":   "Token出错，请重新登录(*.*)",
-			})
+			c.JSON(e.InvalidParams, ctl.ErrorResp(err, e.GetMsg(code), code))
 			c.Abort()
 			return
 		}

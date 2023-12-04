@@ -26,6 +26,7 @@ func NewRouter() *gin.Engine {
 		{
 			// 用户操作
 			authed.POST("user/updatePwd", api.UserUpdatePwdHandler())
+			authed.POST("user/updateInfo", api.UserUpdateInfoHandler())
 
 		}
 	}

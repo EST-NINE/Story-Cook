@@ -87,7 +87,7 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp inte
 }
 
 // UpdatePwd 用户更改密码
-func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdateSerReq) (resp interface{}, err error) {
+func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) (resp interface{}, err error) {
 	// 找到用户
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
@@ -117,6 +117,39 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdateSerReq) (res
 	err = userDao.UpdateUserById(userInfo.Id, user)
 	if err != nil {
 		util.LogrusObj.Info(err)
+		return nil, err
+	}
+
+	return ctl.SuccessResp(), nil
+}
+
+// UpdateInfo 用户更改信息
+func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) (resp interface{}, err error) {
+	// 找到用户
+	userInfo, err := ctl.GetUserInfo(c)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return nil, err
+	}
+
+	userDao := dao.NewUserDao(c)
+	user, err := userDao.FindUserByUserId(userInfo.Id)
+	if err != nil {
+		util.LogrusObj.Infoln(err)
+		return nil, err
+	}
+
+	if req.UpdateName == "" {
+		err = errors.New("更改的用户信息不能为空")
+		util.LogrusObj.Info(err)
+		return nil, err
+	} else {
+		user.UserName = req.UpdateName
+	}
+
+	err = userDao.UpdateUserById(userInfo.Id, user)
+	if err != nil {
+		util.LogrusObj.Infoln(err)
 		return nil, err
 	}
 

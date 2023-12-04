@@ -22,7 +22,6 @@ func UserRegisterHandler() gin.HandlerFunc {
 		server := service.GetUserSrv()
 		resp, err := server.Register(c.Request.Context(), &req)
 		if err != nil {
-			util.LogrusObj.Infoln(err)
 			c.JSON(http.StatusOK, ErrorResponse(err))
 			return
 		}
@@ -55,7 +54,7 @@ func UserLoginHandler() gin.HandlerFunc {
 // UserUpdatePwdHandler 用户修改密码
 func UserUpdatePwdHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var req types.UserUpdateSerReq
+		var req types.UserUpdatePwdReq
 		if err := c.ShouldBind(&req); err != nil {
 			util.LogrusObj.Infoln(err)
 			c.JSON(http.StatusBadRequest, ErrorResponse(err))
@@ -65,6 +64,27 @@ func UserUpdatePwdHandler() gin.HandlerFunc {
 		// 参数校验
 		server := service.GetUserSrv()
 		resp, err := server.UpdatePwd(c.Request.Context(), &req)
+		if err != nil {
+			c.JSON(http.StatusOK, ErrorResponse(err))
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	}
+}
+
+// UserUpdateInfoHandler 用户修改信息
+func UserUpdateInfoHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var req types.UseUpdateInfoReq
+		if err := c.ShouldBind(&req); err != nil {
+			util.LogrusObj.Infoln(err)
+			c.JSON(http.StatusOK, ErrorResponse(err))
+			return
+		}
+
+		// 参数校验
+		server := service.GetUserSrv()
+		resp, err := server.UpdateInfo(c.Request.Context(), &req)
 		if err != nil {
 			c.JSON(http.StatusOK, ErrorResponse(err))
 			return

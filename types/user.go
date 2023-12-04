@@ -5,8 +5,12 @@ type UserServiceReq struct {
 	Password string `form:"password" json:"password"`
 }
 
-type UserUpdateSerReq struct {
+type UserUpdatePwdReq struct {
 	UpdatePwd string `json:"updatePwd" form:"updatePwd"`
+}
+
+type UseUpdateInfoReq struct {
+	UpdateName string `json:"update_name" form:"update_name"`
 }
 
 type TokenDataResp struct {

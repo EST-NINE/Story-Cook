@@ -21,6 +21,6 @@ func GetUserInfo(c context.Context) (*UserInfo, error) {
 	return userInfo, nil
 }
 
-func NewContext(c context.Context, u *UserInfo) context.Context {
-	return context.WithValue(c, userKey, u) // 使用用户信息创建一个新的上下文
+func NewContext(c context.Context, userInfo *UserInfo) context.Context {
+	return context.WithValue(c, userKey, userInfo) // 使用用户信息创建一个新的上下文
 }

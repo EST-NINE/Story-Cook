@@ -25,6 +25,7 @@ func GetUserSrv() *UserSrv {
 	return UserSrvIns
 }
 
+// Register 注册用户
 func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
 	userDao := dao.NewUserDao(c)
 	user, err := userDao.FindUserByUserName(req.UserName)

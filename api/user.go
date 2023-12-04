@@ -52,6 +52,7 @@ func UserLoginHandler() gin.HandlerFunc {
 	}
 }
 
+// UserUpdatePwdHandler 用户修改密码
 func UserUpdatePwdHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req types.UserUpdateSerReq

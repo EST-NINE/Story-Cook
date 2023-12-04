@@ -2,6 +2,7 @@ package service
 
 import (
 	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/e"
 	"SparkForge/pkg/util"
 	"SparkForge/repository/db/dao"
 	"SparkForge/repository/db/model"
@@ -25,8 +26,8 @@ func GetUserSrv() *UserSrv {
 	return UserSrvIns
 }
 
-func (s *UserSrv) Register(ctx context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
-	userDao := dao.NewUserDao(ctx)
+func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
+	userDao := dao.NewUserDao(c)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -52,8 +53,8 @@ func (s *UserSrv) Register(ctx context.Context, req *types.UserServiceReq) (resp
 }
 
 // Login 用户登陆函数
-func (s *UserSrv) Login(ctx context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
-	userDao := dao.NewUserDao(ctx)
+func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
+	userDao := dao.NewUserDao(c)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err = errors.New("用户不存在")
@@ -83,4 +84,39 @@ func (s *UserSrv) Login(ctx context.Context, req *types.UserServiceReq) (resp in
 	}
 
 	return ctl.SuccessWithDataResp(uResp), nil
+}
+
+func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdateSerReq) (resp interface{}, err error) {
+	// 找到用户
+	userInfo, err := ctl.GetUserInfo(c)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return nil, err
+	}
+
+	userDao := dao.NewUserDao(c)
+	user, err := userDao.FindUserByUserId(userInfo.Id)
+
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return nil, err
+	}
+
+	if req.Password != "" {
+		if err := user.SetPassword(req.Password); err != nil {
+			util.LogrusObj.Info(err)
+			return nil, err
+		}
+	}
+
+	err = userDao.UpdateUserById(userInfo.Id, user)
+	if err != nil {
+		util.LogrusObj.Info(err)
+		return nil, err
+	}
+
+	return ctl.Response{
+		Status: e.SUCCESS,
+		Msg:    "修改成功!",
+	}, nil
 }

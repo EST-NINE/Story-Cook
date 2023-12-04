@@ -5,6 +5,10 @@ type UserServiceReq struct {
 	Password string `form:"password" json:"password"`
 }
 
+type UserUpdateSerReq struct {
+	Password string `json:"password" form:"password"`
+}
+
 type TokenDataResp struct {
 	User  interface{} `json:"user"`
 	Token string      `json:"token"`

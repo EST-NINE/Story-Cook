@@ -1,49 +1,49 @@
 package middleware
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	"os"
+	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/e"
+	"SparkForge/pkg/util"
+	"github.com/gin-gonic/gin"
+	"net/http"
 	"time"
 )
 
-var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
-
-type Claims struct {
-	Id       uint   `json:"id"`
-	Username string `json:"username"`
-	jwt.StandardClaims
-}
-
-// GenerateToken 签发用户Token
-func GenerateToken(id uint, username string) (string, error) {
-	nowTime := time.Now()
-	expireTime := nowTime.Add(24 * time.Hour)
-	claims := Claims{
-		Id:       id,
-		Username: username,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expireTime.Unix(),
-			Issuer:    "SparkForge",
-		},
-	}
-	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	token, err := tokenClaims.SignedString(jwtSecret)
-	return token, err
-}
-
-// ParseToken 解析token
-func ParseToken(token string) (*Claims, error) {
-	// 解析Token并将声明封装到Claims结构体中
-	tokenClaims, err := jwt.ParseWithClaims(token, &Claims{}, func(token *jwt.Token) (interface{}, error) {
-		return jwtSecret, nil
-	})
-
-	if tokenClaims != nil {
-		// 检查Token的声明是否有效
-		if claims, ok := tokenClaims.Claims.(*Claims); ok && tokenClaims.Valid {
-			return claims, nil
+// JWT token验证中间件
+func JWT() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var code int
+		code = e.SUCCESS
+		token := c.GetHeader("Authorization")
+		if token == "" {
+			code = http.StatusNotFound
+			c.JSON(e.InvalidParams, gin.H{
+				"status": code,
+				"msg":    e.GetMsg(code),
+				"data":   "缺少Token(-.-)",
+			})
+			c.Abort()
+			return
 		}
+
+		claims, err := util.ParseToken(token)
+		if err != nil {
+			code = e.ErrorAuthCheckTokenFail
+		} else if time.Now().Unix() > claims.ExpiresAt {
+			code = e.ErrorAuthCheckTokenTimeout
+		}
+
+		if code != e.SUCCESS {
+			c.JSON(e.InvalidParams, gin.H{
+				"status": code,
+				"msg":    e.GetMsg(code),
+				"data":   "Token出错，请重新登录(*.*)",
+			})
+			c.Abort()
+			return
+		}
+
+		c.Request = c.Request.WithContext(ctl.NewContext(c.Request.Context(), &ctl.UserInfo{Id: claims.Id}))
+		c.Next()
 	}
-	// 如果Token无效或解析过程中发生错误，则返回错误
-	return nil, err
 }

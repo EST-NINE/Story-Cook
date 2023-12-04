@@ -15,9 +15,9 @@ var MsgFlags = map[int]string{
 	ErrorAuthCheckTokenFail:    "Token鉴权失败",
 	ErrorAuthCheckTokenTimeout: "Token已超时",
 	ErrorAuthToken:             "Token生成失败",
-	ErrorAuth:                  "Token错误",
 
-	ErrorDatabase:   "数据库操作出错，请重试",
+	ErrorDatabase: "数据库操作出错，请重试",
+
 	ErrorOss:        "OSS操作出错",
 	ErrorUploadFile: "文件上传失败",
 }

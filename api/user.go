@@ -22,6 +22,7 @@ func UserRegisterHandler() gin.HandlerFunc {
 		server := service.GetUserSrv()
 		resp, err := server.Register(ctx.Request.Context(), &req)
 		if err != nil {
+			util.LogrusObj.Infoln(err)
 			ctx.JSON(http.StatusOK, ErrorResponse(err))
 			return
 		}

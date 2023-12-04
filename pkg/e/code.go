@@ -15,7 +15,6 @@ const (
 	ErrorAuthCheckTokenFail    = 30001 // Token鉴权失败
 	ErrorAuthCheckTokenTimeout = 30002 // Token已超时
 	ErrorAuthToken             = 30003 // Token生成失败
-	ErrorAuth                  = 30004 // Token错误
 
 	ErrorDatabase = 40001 // 数据库操作出错，请重试
 

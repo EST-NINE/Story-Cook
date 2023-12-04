@@ -5,7 +5,6 @@ import (
 	"SparkForge/pkg/e"
 	"SparkForge/pkg/util"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"time"
 )
 
@@ -16,7 +15,7 @@ func JWT() gin.HandlerFunc {
 		code = e.SUCCESS
 		token := c.GetHeader("Authorization")
 		if token == "" {
-			code = http.StatusNotFound
+			code = e.ErrorAuthCheckTokenTimeout
 			c.JSON(e.InvalidParams, gin.H{
 				"status": code,
 				"msg":    e.GetMsg(code),

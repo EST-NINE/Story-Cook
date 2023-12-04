@@ -90,7 +90,7 @@
 
 ## 2.1：更改密码
 
-- 请求路径：api/v1/user/login
+- 请求路径：api/v1/user/updatePwd
 - 请求方法：POST
 - 请求体
 

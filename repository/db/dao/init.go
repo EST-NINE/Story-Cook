@@ -34,7 +34,7 @@ func InitMysql() {
 	}), &gorm.Config{
 		Logger: ormLogger, // 打印日志
 		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true, // 表明不加s
+			SingularTable: true, // 表名不加s
 		},
 	})
 	if err != nil {

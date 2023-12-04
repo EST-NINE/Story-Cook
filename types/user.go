@@ -6,7 +6,7 @@ type UserServiceReq struct {
 }
 
 type UserUpdateSerReq struct {
-	Password string `json:"password" form:"password"`
+	UpdatePwd string `json:"updatePwd" form:"updatePwd"`
 }
 
 type TokenDataResp struct {

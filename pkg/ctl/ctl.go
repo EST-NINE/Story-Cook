@@ -10,22 +10,21 @@ type Response struct {
 	Error  string      `json:"error"`
 }
 
-// DataListResp 带有总数的Data结构
-type DataListResp struct {
-	Item  interface{} `json:"item"`
-	Total int64       `json:"total"`
-}
-
-// ListResp 带有总数的列表构建器
-func ListResp(items interface{}, total int64) Response {
-	return Response{
-		Status: 200,
-		Data: DataListResp{
-			Item:  items,
-			Total: total,
-		},
-		Msg: "ok",
+// ErrorResp 错误返回
+func ErrorResp(err error, data string, code ...int) *Response {
+	status := e.ERROR
+	if code != nil {
+		status = code[0]
 	}
+
+	r := &Response{
+		Status: status,
+		Msg:    e.GetMsg(status),
+		Data:   data,
+		Error:  err.Error(),
+	}
+
+	return r
 }
 
 // SuccessResp 成功返回
@@ -60,19 +59,20 @@ func SuccessWithDataResp(data interface{}, code ...int) *Response {
 	return r
 }
 
-// ErrorResp 错误返回
-func ErrorResp(err error, data string, code ...int) *Response {
-	status := e.ERROR
-	if code != nil {
-		status = code[0]
-	}
+// DataListResp 带有总数的Data结构
+type DataListResp struct {
+	Item  interface{} `json:"item"`
+	Total int64       `json:"total"`
+}
 
-	r := &Response{
-		Status: status,
-		Msg:    e.GetMsg(status),
-		Data:   data,
-		Error:  err.Error(),
+// ListResp 带有总数的列表构建器
+func ListResp(items interface{}, total int64) Response {
+	return Response{
+		Status: 200,
+		Data: DataListResp{
+			Item:  items,
+			Total: total,
+		},
+		Msg: "ok",
 	}
-
-	return r
 }

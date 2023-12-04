@@ -102,11 +102,15 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdateSerReq) (res
 		return nil, err
 	}
 
-	if req.Password != "" {
-		if err := user.SetPassword(req.Password); err != nil {
-			util.LogrusObj.Info(err)
-			return nil, err
-		}
+	if req.UpdatePwd == "" {
+		err = errors.New("更改的密码不能为空")
+		util.LogrusObj.Info(err)
+		return nil, err
+	}
+
+	if err := user.SetPassword(req.UpdatePwd); err != nil {
+		util.LogrusObj.Info(err)
+		return nil, err
 	}
 
 	err = userDao.UpdateUserById(userInfo.Id, user)

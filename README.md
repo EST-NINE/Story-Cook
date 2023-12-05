@@ -192,7 +192,7 @@
 ```
 
 ## 3.1：获取星火大模型V3.0生成的故事
-- 请求路径：api/v1/user/info
+- 请求路径：api/v1/user/getStory
 - 请求方法：Post
 - 请求体
 

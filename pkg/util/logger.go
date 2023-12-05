@@ -38,10 +38,8 @@ func InitLog() {
 
 func setOutputFile() (*os.File, error) {
 	now := time.Now()
-	logFilePath := ""
-	if dir, err := os.Getwd(); err == nil {
-		logFilePath = "./" + path.Dir(dir) + "/logs/"
-	}
+	logFilePath := "./logs/"
+
 	_, err := os.Stat(logFilePath)
 	if os.IsNotExist(err) {
 		if err := os.MkdirAll(logFilePath, 0777); err != nil {
@@ -49,6 +47,7 @@ func setOutputFile() (*os.File, error) {
 		}
 	}
 	logFileName := now.Format("2006-01-02") + ".log"
+
 	//日志文件
 	fileName := path.Join(logFilePath, logFileName)
 	if _, err := os.Stat(fileName); err != nil {
@@ -56,6 +55,7 @@ func setOutputFile() (*os.File, error) {
 			return nil, err
 		}
 	}
+
 	//写入文件
 	src, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	if err != nil {

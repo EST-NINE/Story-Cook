@@ -49,7 +49,10 @@ func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) (resp i
 		}
 		return nil, err
 	}
-	return nil, errors.New("用户已存在")
+
+	err = errors.New("用户已存在")
+	util.LogrusObj.Infoln(err)
+	return nil, err
 }
 
 // Login 用户登陆函数

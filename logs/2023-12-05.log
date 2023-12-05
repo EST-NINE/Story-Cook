@@ -1,3 +1,2 @@
-time="2023-12-05 07:27:43" level=info msg="record not found"
-time="2023-12-05 07:27:58" level=info msg="账号/密码错误"
-time="2023-12-05 07:42:48" level=info msg="更改的用户信息不能为空"
+time="2023-12-05 08:01:47" level=info msg="账号/密码错误"
+time="2023-12-05 08:03:13" level=info msg="用户已存在"

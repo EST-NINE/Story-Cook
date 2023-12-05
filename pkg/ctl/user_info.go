@@ -13,6 +13,7 @@ type UserInfo struct {
 	Id uint `json:"id"`
 }
 
+// GetUserInfo 从上下文中获取用户信息
 func GetUserInfo(c context.Context) (*UserInfo, error) {
 	userInfo, ok := c.Value(userKey).(*UserInfo) // 从上下文中获取用户信息
 	if !ok {

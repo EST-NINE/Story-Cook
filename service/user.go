@@ -8,7 +8,6 @@ import (
 	"SparkForge/types"
 	"context"
 	"errors"
-	"fmt"
 	"gorm.io/gorm"
 	"sync"
 )
@@ -160,6 +159,11 @@ func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) (re
 		util.LogrusObj.Info(err)
 		return nil, err
 	} else {
+		_, err := userDao.FindUserByUserName(req.UpdateName)
+		if err == nil {
+			err = errors.New("用户已存在")
+			return nil, err
+		}
 		user.UserName = req.UpdateName
 	}
 
@@ -183,7 +187,6 @@ func (s *UserSrv) UserInfo(c context.Context) (resp interface{}, err error) {
 
 	userDao := dao.NewUserDao(c)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
-	fmt.Println(user)
 
 	userResp := &types.UserResp{
 		ID:       user.ID,

@@ -18,7 +18,7 @@ func UserRegisterHandler() gin.HandlerFunc {
 			return
 		}
 
-		// 参数校验
+		// 处理响应
 		server := service.GetUserSrv()
 		resp, err := server.Register(c.Request.Context(), &req)
 		if err != nil {
@@ -40,7 +40,7 @@ func UserLoginHandler() gin.HandlerFunc {
 			return
 		}
 
-		// 参数校验
+		// 处理响应
 		server := service.GetUserSrv()
 		resp, err := server.Login(c.Request.Context(), &req)
 		if err != nil {
@@ -61,7 +61,7 @@ func UserUpdatePwdHandler() gin.HandlerFunc {
 			return
 		}
 
-		// 参数校验
+		// 处理响应
 		server := service.GetUserSrv()
 		resp, err := server.UpdatePwd(c.Request.Context(), &req)
 		if err != nil {
@@ -82,7 +82,7 @@ func UserUpdateInfoHandler() gin.HandlerFunc {
 			return
 		}
 
-		// 参数校验
+		// 处理响应
 		server := service.GetUserSrv()
 		resp, err := server.UpdateInfo(c.Request.Context(), &req)
 		if err != nil {
@@ -96,6 +96,8 @@ func UserUpdateInfoHandler() gin.HandlerFunc {
 // GetUserInfoHandler 用户信息
 func GetUserInfoHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		// 处理响应
 		server := service.GetUserSrv()
 		resp, err := server.UserInfo(c.Request.Context())
 		if err != nil {

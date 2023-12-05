@@ -8,6 +8,7 @@ import (
 	"SparkForge/types"
 	"context"
 	"errors"
+	"fmt"
 	"gorm.io/gorm"
 	"sync"
 )
@@ -106,6 +107,18 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) (res
 		return nil, err
 	}
 
+	if req.OriginPwd == "" {
+		err = errors.New("原密码不能为空")
+		util.LogrusObj.Info(err)
+		return nil, err
+	}
+
+	if !user.CheckPassword(req.OriginPwd) {
+		err = errors.New("原密码错误")
+		util.LogrusObj.Info(err)
+		return nil, err
+	}
+
 	if req.UpdatePwd == "" {
 		err = errors.New("更改的密码不能为空")
 		util.LogrusObj.Info(err)
@@ -157,4 +170,26 @@ func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) (re
 	}
 
 	return ctl.SuccessResp(), nil
+}
+
+// UserInfo 得到用户的信息
+func (s *UserSrv) UserInfo(c context.Context) (resp interface{}, err error) {
+	// 找到用户
+	userInfo, err := ctl.GetUserInfo(c)
+	if err != nil {
+		util.LogrusObj.Infoln(err)
+		return nil, err
+	}
+
+	userDao := dao.NewUserDao(c)
+	user, err := userDao.FindUserByUserId(userInfo.Id)
+	fmt.Println(user)
+
+	userResp := &types.UserResp{
+		ID:       user.ID,
+		UserName: user.UserName,
+		CreateAt: user.CreatedAt.Unix(),
+	}
+
+	return ctl.SuccessWithDataResp(userResp), nil
 }

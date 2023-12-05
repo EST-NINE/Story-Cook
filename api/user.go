@@ -92,3 +92,15 @@ func UserUpdateInfoHandler() gin.HandlerFunc {
 		c.JSON(http.StatusOK, resp)
 	}
 }
+
+// GetUserInfoHandler 用户信息
+func GetUserInfoHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		server := service.GetUserSrv()
+		resp, err := server.UserInfo(c.Request.Context())
+		if err != nil {
+			c.JSON(http.StatusOK, ErrorResponse(err))
+		}
+		c.JSON(http.StatusOK, resp)
+	}
+}

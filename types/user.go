@@ -6,6 +6,7 @@ type UserServiceReq struct {
 }
 
 type UserUpdatePwdReq struct {
+	OriginPwd string `json:"originPwd" form:"originPwd"`
 	UpdatePwd string `json:"updatePwd" form:"updatePwd"`
 }
 

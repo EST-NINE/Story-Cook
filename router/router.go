@@ -25,6 +25,9 @@ func NewRouter() *gin.Engine {
 		authed.Use(middleware.JWT())
 		{
 			// 用户操作
+			authed.GET("user/isLogin", func(c *gin.Context) {
+				c.JSON(http.StatusOK, "登录成功！")
+			})
 			authed.POST("user/updatePwd", api.UserUpdatePwdHandler())
 			authed.POST("user/updateInfo", api.UserUpdateInfoHandler())
 			authed.GET("user/info", api.GetUserInfoHandler())

@@ -81,12 +81,11 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp inte
 		UserName: user.UserName,
 		CreateAt: user.CreatedAt.Unix(),
 	}
-	uResp := &types.TokenDataResp{
+	return types.TokenDataResp{
 		User:  userResp,
 		Token: token,
-	}
+	}, nil
 
-	return ctl.SuccessWithDataResp(uResp), nil
 }
 
 // UpdatePwd 用户更改密码

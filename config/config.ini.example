@@ -1,0 +1,17 @@
+[service]
+AppMode = debug
+HttpPort = :8082
+
+[redis]
+RedisDb = redis
+RedisAddr =
+RedisPw =
+RedisDbName =
+
+[mysql]
+Db = mysql
+DbHost =
+DbPort =
+DbUser =
+DbPassWord =
+DbName =

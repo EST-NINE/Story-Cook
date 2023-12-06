@@ -20,6 +20,10 @@ var (
 	DbUser     string
 	DbPassWord string
 	DbName     string
+
+	AppId      string
+	ApiKey     string
+	ApiSecret  string
 )
 
 func InitFile() {
@@ -31,6 +35,7 @@ func InitFile() {
 	LoadServer(file)
 	LoadMysqlData(file)
 	LoadRedis(file)
+	LoadSpark(file)
 }
 
 func LoadServer(file *ini.File) {
@@ -51,4 +56,10 @@ func LoadRedis(file *ini.File) {
 	RedisAddr = file.Section("redis").Key("RedisAddr").String()
 	RedisPw = file.Section("redis").Key("RedisPw").String()
 	RedisDbName = file.Section("redis").Key("RedisDbName").String()
+}
+
+func LoadSpark(file *ini.File) {
+	AppId =  file.Section("spark").Key("AppId").String()
+	ApiKey =  file.Section("spark").Key("ApiKey").String()
+	ApiSecret = file.Section("spark").Key("ApiSecret").String()
 }

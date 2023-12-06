@@ -1,19 +1,20 @@
 package api
 
 import (
+	"SparkForge/config"
+	"SparkForge/pkg/util"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
-	"io"
 	"strings"
 	"time"
-	"github.com/gorilla/websocket"
 	"github.com/gin-gonic/gin"
-	"SparkForge/pkg/util"
+	"github.com/gorilla/websocket"
 )
 
 type Message struct {
@@ -22,6 +23,7 @@ type Message struct {
 }
 
 type GetStoryReq struct {
+	Mood     string `json:"mood"`
 	Keywords string `json:"keywords"`
 }
 
@@ -31,13 +33,7 @@ type GetStoryReq struct {
  * @author iflytek
  */
 
- var (
-	hostUrl   = "wss://spark-api.xf-yun.com/v3.1/chat"
-	appid     = "xxx"
-	apiSecret = "xxx"
-	apiKey    = "xxx"
-
-)
+	var hostUrl = "wss://spark-api.xf-yun.com/v3.1/chat"
 
 
 func GetStoryHandler() gin.HandlerFunc {
@@ -49,29 +45,29 @@ func GetStoryHandler() gin.HandlerFunc {
 			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{
-			"story" : getStoryFromSpark(req.Keywords),
+			"story" : getStoryFromSpark(req.Keywords, req.Mood),
 		})
 	}
 }
 
 // getStoryFromSpark 根据关键词从星火api获取故事
-func getStoryFromSpark(keywords string) string {
+func getStoryFromSpark(keywords string, mood string) string {
 	d := websocket.Dialer{
 		HandshakeTimeout: 5 * time.Second,
 	}
 	//握手并建立websocket 连接
-	conn, resp, err := d.Dial(assembleAuthUrl1(hostUrl, apiKey, apiSecret), nil)
+	conn, resp, err := d.Dial(assembleAuthUrl1(hostUrl, config.ApiKey, config.ApiSecret), nil)
 	if err != nil {
 		panic(readResp(resp) + err.Error())
 	} else if resp.StatusCode != 101 {
 		panic(readResp(resp) + err.Error())
 	}
 
-	prompt := fmt.Sprintf("请将我下面给出的几个关键词串成一个搞怪的故事，字数请限制在200个中文字符左右，若不足200字请进行扩充，若超过200字请进行删减，关键词：%s", keywords)
+	prompt := fmt.Sprintf("请将我下面给出的几个关键词串成一个搞怪的故事，字数请限制在200个中文字符左右（注意：若不足200字请进行扩充，若超过200字请进行删减，不管关键词是什么一定要搞怪，令人忍俊不禁）关键词：%s+%s", keywords, mood)
 	// fmt.Println(prompt)
 	go func() {
 
-		data := genParams1(appid, prompt)
+		data := genParams1(config.AppId, prompt)
 		conn.WriteJSON(data)
 
 	}()

@@ -15,3 +15,8 @@ DbPort =
 DbUser =
 DbPassWord =
 DbName =
+
+[spark]
+AppId = 
+ApiKey = 
+ApiSecret = 

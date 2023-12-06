@@ -4,7 +4,7 @@
   *.dll
   *.so
   *.dylib
-  .idea
+  .idea/
   # Test binary, built with `go test -c`
   *.test
   main
@@ -14,5 +14,6 @@
   # Dependency directories (remove the comment below to include it)
   # vendor/
   uploadfile
-  config/config.ini
-  logs
+  *.ini
+  logs/*
+  *.log

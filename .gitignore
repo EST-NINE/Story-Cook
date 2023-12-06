@@ -1,5 +1,5 @@
 logs/*
 
-*.ini
+config/config.ini
 
 .idea/

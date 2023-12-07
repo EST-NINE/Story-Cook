@@ -74,6 +74,7 @@ func DeleteStoryHandler() gin.HandlerFunc {
 	}
 }
 
+// UpdateStoryHandler 更新故事
 func UpdateStoryHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req types.UpdateStoryReq
@@ -86,6 +87,27 @@ func UpdateStoryHandler() gin.HandlerFunc {
 		// 处理响应
 		server := service.GetStorySrv()
 		resp, err := server.UpdateStory(c.Request.Context(), &req)
+		if err != nil {
+			c.JSON(http.StatusOK, ErrorResponse(err))
+			return
+		}
+		c.JSON(http.StatusOK, resp)
+	}
+}
+
+// SelectStoryHandler 根据mood分类故事
+func SelectStoryHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var req types.SelectStoryReq
+		if err := c.ShouldBind(&req); err != nil {
+			util.LogrusObj.Infoln(err)
+			c.JSON(http.StatusBadRequest, ErrorResponse(err))
+			return
+		}
+
+		// 处理响应
+		server := service.GetStorySrv()
+		resp, err := server.SelectStory(c.Request.Context(), &req)
 		if err != nil {
 			c.JSON(http.StatusOK, ErrorResponse(err))
 			return

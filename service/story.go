@@ -100,6 +100,7 @@ func (s *StorySrv) DeleteStory(c context.Context, req *types.DeleteStoryReq) (re
 	return ctl.SuccessResp(), nil
 }
 
+// UpdateStory 更新故事
 func (s *StorySrv) UpdateStory(c context.Context, req *types.UpdateStoryReq) (resp interface{}, err error) {
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
@@ -128,4 +129,33 @@ func (s *StorySrv) UpdateStory(c context.Context, req *types.UpdateStoryReq) (re
 		CreatedAt: story.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 	return ctl.SuccessWithDataResp(storyResp), nil
+}
+
+// SelectStory 根据mood分类查找story
+func (s *StorySrv) SelectStory(c context.Context, req *types.SelectStoryReq) (resp interface{}, err error) {
+	userInfo, err := ctl.GetUserInfo(c)
+	if err != nil {
+		util.LogrusObj.Infoln(err)
+		return
+	}
+
+	stories, total, err := dao.NewStoryDao(c).SelectStory(userInfo.Id, req.Mood)
+	if err != nil {
+		util.LogrusObj.Infoln(err)
+		return
+	}
+
+	listStoryResp := make([]*types.StoryResp, 0)
+	for _, story := range stories {
+		listStoryResp = append(listStoryResp, &types.StoryResp{
+			ID:        story.ID,
+			Title:     story.Title,
+			Mood:      story.Mood,
+			Keywords:  story.Keywords,
+			Content:   story.Content,
+			CreatedAt: story.CreatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
+
+	return ctl.ListResp(listStoryResp, total), nil
 }

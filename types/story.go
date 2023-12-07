@@ -27,6 +27,10 @@ type UpdateStoryReq struct {
 	Content string `json:"content"`
 }
 
+type SelectStoryReq struct {
+	Mood string `json:"mood" binding:"required"`
+}
+
 type StoryResp struct {
 	ID        uint   `json:"id"`
 	Title     string `json:"title"`

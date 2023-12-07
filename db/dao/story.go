@@ -70,3 +70,12 @@ func (dao *StoryDao) UpdateStory(uid uint, req *types.UpdateStoryReq) error {
 
 	return dao.Save(story).Error
 }
+
+// SelectStory 根据mood分类故事
+func (dao *StoryDao) SelectStory(uid uint, mood string) (stories []model.Story, total int64, err error) {
+	err = dao.DB.Model(&model.Story{}).Preload("User").Where("uid = ? AND mood = ?", uid, mood).
+		Count(&total).
+		Find(&stories).Error
+
+	return
+}

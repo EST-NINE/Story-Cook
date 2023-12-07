@@ -17,6 +17,10 @@ type ListStoryReq struct {
 	Limit int `json:"limit"`
 }
 
+type DeleteStoryReq struct {
+	Id uint `json:"id" binding:"required"`
+}
+
 type ListStoryResp struct {
 	ID        uint   `json:"id"`
 	Title     string `json:"title"`

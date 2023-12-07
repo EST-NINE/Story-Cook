@@ -52,3 +52,23 @@ func ListStoryHandler() gin.HandlerFunc {
 		c.JSON(http.StatusOK, resp)
 	}
 }
+
+// DeleteStoryHandler 删除故事
+func DeleteStoryHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var req types.DeleteStoryReq
+		if err := c.ShouldBind(&req); err != nil {
+			util.LogrusObj.Infoln(err)
+			c.JSON(http.StatusBadRequest, ErrorResponse(err))
+			return
+		}
+
+		// 处理响应
+		server := service.GetStorySrv()
+		resp, err := server.DeleteStory(c.Request.Context(), &req)
+		if err != nil {
+			c.JSON(http.StatusOK, ErrorResponse(err))
+		}
+		c.JSON(http.StatusOK, resp)
+	}
+}

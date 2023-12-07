@@ -82,3 +82,20 @@ func (s *StorySrv) ListStory(c context.Context, req *types.ListStoryReq) (resp i
 
 	return ctl.ListResp(listStoryResp, total), nil
 }
+
+// DeleteStory 删除故事
+func (s *StorySrv) DeleteStory(c context.Context, req *types.DeleteStoryReq) (resp interface{}, err error) {
+	userInfo, err := ctl.GetUserInfo(c)
+	if err != nil {
+		util.LogrusObj.Infoln(err)
+		return
+	}
+
+	err = dao.NewStoryDao(c).DeleteStory(userInfo.Id, req.Id)
+	if err != nil {
+		util.LogrusObj.Infoln(err)
+		return
+	}
+
+	return ctl.SuccessResp(), nil
+}

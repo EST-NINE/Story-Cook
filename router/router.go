@@ -36,6 +36,7 @@ func NewRouter() *gin.Engine {
 			authed.POST("story/generateStory", api.GenerateStoryHandler())
 			authed.POST("story/createStory", api.CreateStoryHandler())
 			authed.POST("story/listStory", api.ListStoryHandler())
+			authed.POST("story/deleteStory", api.DeleteStoryHandler())
 		}
 	}
 

@@ -17,16 +17,9 @@ func NewStoryDao(c context.Context) *StoryDao {
 	return &StoryDao{NewDBClient(c)}
 }
 
-// FindStoryIdByTitle 根据故事的标题找到故事id
-func (dao *StoryDao) FindStoryIdByTitle(title string) (id uint, err error) {
-	err = dao.DB.Model(&model.Story{}).Where("title = ?", title).First(&id).Error
-
-	return
-}
-
 // FindStoryByIdAndUserId 根据用户id和故事id查找故事
-func (dao *StoryDao) FindStoryByIdAndUserId(id, uid uint) (story *model.Story, err error) {
-	err = dao.DB.Model(&model.Story{}).Where("id = ? AND uid = ?", id, uid).First(&story).Error
+func (dao *StoryDao) FindStoryByIdAndUserId(uid, id uint) (story *model.Story, err error) {
+	err = dao.DB.Model(&model.Story{}).Where("uid = ? AND id = ? ", uid, id).First(&story).Error
 
 	return
 }
@@ -46,4 +39,14 @@ func (dao *StoryDao) ListStory(page, limit int, uid uint) (stories []model.Story
 		Find(&stories).Error
 
 	return
+}
+
+// DeleteStory 删除故事
+func (dao *StoryDao) DeleteStory(uid, id uint) error {
+	story, err := dao.FindStoryByIdAndUserId(uid, id)
+	if err != nil {
+		return err
+	}
+
+	return dao.Delete(&story).Error
 }

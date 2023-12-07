@@ -313,7 +313,7 @@
 }
 ```
 ## 3.4：删除对应故事的历史记录
-- 请求路径：api/v1/story/createStory
+- 请求路径：api/v1/story/deleteStory
 - 请求方法：Post
 - 请求体(需要token认证)
 

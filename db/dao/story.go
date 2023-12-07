@@ -50,8 +50,8 @@ func (dao *StoryDao) ListStory(page, limit int, uid uint) (stories []model.Story
 }
 
 // DeleteStory 删除故事
-func (dao *StoryDao) DeleteStory(uid, id uint) error {
-	story, err := dao.FindStoryByIdAndUserId(uid, id)
+func (dao *StoryDao) DeleteStory(uid uint, title string) error {
+	story, err := dao.FindStoryByTitleAndUserId(uid, title)
 	if err != nil {
 		return err
 	}

@@ -99,7 +99,7 @@ func (s *StorySrv) DeleteStory(c context.Context, req *types.DeleteStoryReq) (re
 		return
 	}
 
-	err = dao.NewStoryDao(c).DeleteStory(userInfo.Id, req.Id)
+	err = dao.NewStoryDao(c).DeleteStory(userInfo.Id, req.Title)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return

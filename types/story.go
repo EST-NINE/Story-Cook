@@ -21,7 +21,13 @@ type DeleteStoryReq struct {
 	Id uint `json:"id" binding:"required"`
 }
 
-type ListStoryResp struct {
+type UpdateStoryReq struct {
+	ID      uint   `json:"id" binding:"required"`
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
+
+type StoryResp struct {
 	ID        uint   `json:"id"`
 	Title     string `json:"title"`
 	Mood      string `json:"mood"`

@@ -2,6 +2,7 @@ package dao
 
 import (
 	"SparkForge/db/model"
+	"SparkForge/types"
 	"context"
 	"gorm.io/gorm"
 )
@@ -49,4 +50,23 @@ func (dao *StoryDao) DeleteStory(uid, id uint) error {
 	}
 
 	return dao.Delete(&story).Error
+}
+
+// UpdateStory 更新故事
+func (dao *StoryDao) UpdateStory(uid uint, req *types.UpdateStoryReq) error {
+	story := new(model.Story)
+	err := dao.DB.Model(&model.Story{}).Where("uid = ? AND id = ?", uid, req.ID).First(&story).Error
+	if err != nil {
+		return err
+	}
+
+	if req.Title != "" {
+		story.Title = req.Title
+	}
+
+	if req.Content != "" {
+		story.Content = req.Content
+	}
+
+	return dao.Save(story).Error
 }

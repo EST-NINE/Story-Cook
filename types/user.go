@@ -1,17 +1,17 @@
 package types
 
 type UserServiceReq struct {
-	UserName string `form:"user_name" json:"user_name"`
-	Password string `form:"password" json:"password"`
+	UserName string `json:"user_name" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 type UserUpdatePwdReq struct {
-	OriginPwd string `json:"originPwd" form:"originPwd"`
-	UpdatePwd string `json:"updatePwd" form:"updatePwd"`
+	OriginPwd string `json:"originPwd" binding:"required"`
+	UpdatePwd string `json:"updatePwd" binding:"required"`
 }
 
 type UseUpdateInfoReq struct {
-	UpdateName string `json:"update_name" form:"update_name"`
+	UpdateName string `json:"update_name"`
 }
 
 type TokenDataResp struct {

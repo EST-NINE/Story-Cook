@@ -22,9 +22,9 @@ type DeleteStoryReq struct {
 }
 
 type UpdateStoryReq struct {
-	ID      uint   `json:"id" binding:"required"`
-	Title   string `json:"title"`
-	Content string `json:"content"`
+	Title         string `json:"title" binding:"required"`
+	UpdateTitle   string `json:"update_title"`
+	UpdateContent string `json:"update_content"`
 }
 
 type SelectStoryReq struct {

@@ -123,7 +123,7 @@ func (s *StorySrv) UpdateStory(c context.Context, req *types.UpdateStoryReq) (re
 		return
 	}
 
-	story, err := storyDao.FindStoryByIdAndUserId(userInfo.Id, req.ID)
+	story, err := storyDao.FindStoryByTitleAndUserId(userInfo.Id, req.UpdateTitle)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return

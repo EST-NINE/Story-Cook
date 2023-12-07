@@ -62,17 +62,17 @@ func (dao *StoryDao) DeleteStory(uid uint, title string) error {
 // UpdateStory 更新故事
 func (dao *StoryDao) UpdateStory(uid uint, req *types.UpdateStoryReq) error {
 	story := new(model.Story)
-	err := dao.DB.Model(&model.Story{}).Where("uid = ? AND id = ?", uid, req.ID).First(&story).Error
+	err := dao.DB.Model(&model.Story{}).Where("uid = ? AND title = ?", uid, req.Title).First(&story).Error
 	if err != nil {
 		return err
 	}
 
-	if req.Title != "" {
-		story.Title = req.Title
+	if req.UpdateTitle != "" {
+		story.Title = req.UpdateTitle
 	}
 
-	if req.Content != "" {
-		story.Content = req.Content
+	if req.UpdateContent != "" {
+		story.Content = req.UpdateContent
 	}
 
 	return dao.Save(story).Error

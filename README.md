@@ -79,7 +79,8 @@
         "user": {
             "id": 2,
             "user_name": "lxy",
-            "create_at": 1701557314
+            "kitchen": "lxy的厨房",
+            "create_at": 1701557314,
         },
         "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJseHkiLCJleHAiOjE3MDE2NDM3MjUsImlzcyI6InRvLWRvLWxpc3QifQ.XOQFVHIcdttR0BpQFANUcbLmgstmZhQh5BM6hwm2Qek"
     },
@@ -132,13 +133,15 @@
 - 请求方法：POST
 - 请求体(需要token认证)
 
-|   参数   | 含义  |         备注         |
-| :------: |:---:| :------------------: |
-| update_name | 用户名字信息 | 后续可能有其他的信息 |
+|     参数      |   含义   |         备注         |
+|:-----------:|:------:| :------------------: |
+|   kitchen   | 用户厨房名字 |  |
+| update_name | 用户名字信息 |  |
 
 ```
 {
-    "update_name":"test11"
+    "kitchen":"不知道叫什么名字的厨房",
+    "update_name":"test566"
 }
 ```
 
@@ -182,9 +185,10 @@
 {
     "status": 200,
     "data": {
-        "id": 15,
-        "user_name": "test11",
-        "create_at": 1701754717
+        "id": 37,
+        "user_name": "test566",
+        "kitchen": "不知道叫什么名字的厨房",
+        "create_at": 1701956362
     },
     "msg": "操作成功",
     "error": ""

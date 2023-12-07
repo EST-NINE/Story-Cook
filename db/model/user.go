@@ -10,6 +10,7 @@ type User struct {
 	gorm.Model
 	UserName       string `gorm:"unique"`
 	PasswordDigest string
+	Kitchen        string
 }
 
 const (

@@ -12,6 +12,7 @@ type UserUpdatePwdReq struct {
 
 type UseUpdateInfoReq struct {
 	UpdateName string `json:"update_name"`
+	Kitchen    string `json:"kitchen"`
 }
 
 type TokenDataResp struct {
@@ -20,7 +21,8 @@ type TokenDataResp struct {
 }
 
 type UserResp struct {
-	ID       uint   `json:"id" form:"id"`               // 用户ID
-	UserName string `json:"user_name" form:"user_name"` // 用户名
-	CreateAt int64  `json:"create_at" form:"create_at"` // 创建
+	ID       uint   `json:"id"`        // 用户ID
+	UserName string `json:"user_name"` // 用户名
+	Kitchen  string `json:"kitchen"`   // 厨房名
+	CreateAt int64  `json:"create_at"` // 创建
 }

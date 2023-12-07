@@ -8,6 +8,7 @@ import (
 	"SparkForge/types"
 	"context"
 	"errors"
+	"fmt"
 	"gorm.io/gorm"
 	"sync"
 )
@@ -33,6 +34,7 @@ func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) (resp i
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			user = &model.User{
 				UserName: req.UserName,
+				Kitchen:  fmt.Sprint(req.UserName, "的厨房"),
 			}
 			// 密码加密存储
 			if err = user.SetPassword(req.Password); err != nil {
@@ -79,6 +81,7 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp inte
 	userResp := &types.UserResp{
 		ID:       user.ID,
 		UserName: user.UserName,
+		Kitchen:  user.Kitchen,
 		CreateAt: user.CreatedAt.Unix(),
 	}
 	return types.TokenDataResp{
@@ -153,17 +156,17 @@ func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) (re
 		return nil, err
 	}
 
-	if req.UpdateName == "" {
-		err = errors.New("更改的用户信息不能为空")
-		util.LogrusObj.Info(err)
-		return nil, err
-	} else {
+	if req.UpdateName != "" {
 		_, err := userDao.FindUserByUserName(req.UpdateName)
 		if err == nil {
 			err = errors.New("用户已存在")
 			return nil, err
 		}
 		user.UserName = req.UpdateName
+	}
+
+	if req.Kitchen != "" {
+		user.Kitchen = req.Kitchen
 	}
 
 	err = userDao.UpdateUserById(userInfo.Id, user)
@@ -190,6 +193,7 @@ func (s *UserSrv) UserInfo(c context.Context) (resp interface{}, err error) {
 	userResp := &types.UserResp{
 		ID:       user.ID,
 		UserName: user.UserName,
+		Kitchen:  user.Kitchen,
 		CreateAt: user.CreatedAt.Unix(),
 	}
 

@@ -18,6 +18,7 @@ type ListStoryReq struct {
 }
 
 type ListStoryResp struct {
+	ID        uint   `json:"id"`
 	Title     string `json:"title"`
 	Mood      string `json:"mood"`
 	Keywords  string `json:"keywords"`

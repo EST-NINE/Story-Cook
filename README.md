@@ -290,6 +290,7 @@
     "data": {
         "item": [
             {
+                "id": 1,
                 "title": "story1",
                 "mood": "开心",
                 "keywords": "室友+电脑",
@@ -297,6 +298,7 @@
                 "created_at": "2023-12-07 04:53:30"
             },
             {
+                "id": 4,
                 "title": "story4",
                 "mood": "开心",
                 "keywords": "室友+电脑",

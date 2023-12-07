@@ -71,6 +71,7 @@ func (s *StorySrv) ListStory(c context.Context, req *types.ListStoryReq) (resp i
 	listStoryResp := make([]*types.ListStoryResp, 0)
 	for _, story := range stories {
 		listStoryResp = append(listStoryResp, &types.ListStoryResp{
+			ID:        story.ID,
 			Title:     story.Title,
 			Mood:      story.Mood,
 			Keywords:  story.Keywords,

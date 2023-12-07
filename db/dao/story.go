@@ -25,6 +25,13 @@ func (dao *StoryDao) FindStoryByIdAndUserId(uid, id uint) (story *model.Story, e
 	return
 }
 
+// FindStoryByTitleAndUserId 根据故事title查找故事
+func (dao *StoryDao) FindStoryByTitleAndUserId(uid uint, title string) (story *model.Story, err error) {
+	err = dao.DB.Model(&model.Story{}).Where("uid = ? AND title = ? ", uid, title).First(&story).Error
+
+	return
+}
+
 // CreateStory 创建故事
 func (dao *StoryDao) CreateStory(story *model.Story) (err error) {
 	err = dao.DB.Model(&model.Story{}).Create(&story).Error

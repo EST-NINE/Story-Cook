@@ -7,6 +7,7 @@ import (
 	"SparkForge/pkg/util"
 	"SparkForge/types"
 	"context"
+	"errors"
 	"sync"
 )
 
@@ -37,6 +38,13 @@ func (s *StorySrv) CreateStory(c context.Context, req *types.CreateStoryReq) (re
 		return
 	}
 
+	storyDao := dao.NewStoryDao(c)
+	_, err = storyDao.FindStoryByTitleAndUserId(userInfo.Id, req.Title)
+	if err == nil {
+		err = errors.New("已经创建过该标题的故事哦")
+		return
+	}
+
 	story := model.Story{
 		User:     *user,
 		Title:    req.Title,
@@ -45,7 +53,7 @@ func (s *StorySrv) CreateStory(c context.Context, req *types.CreateStoryReq) (re
 		Content:  req.Content,
 	}
 
-	err = dao.NewStoryDao(c).CreateStory(&story)
+	err = storyDao.CreateStory(&story)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return

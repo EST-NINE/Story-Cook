@@ -2,8 +2,8 @@ package main
 
 import (
 	"SparkForge/config"
+	"SparkForge/db/dao"
 	"SparkForge/pkg/util"
-	"SparkForge/repository/db/dao"
 	"SparkForge/router"
 	"fmt"
 	"log"

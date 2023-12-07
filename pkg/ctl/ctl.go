@@ -67,6 +67,6 @@ func ListResp(items interface{}, total int64) *Response {
 			Item:  items,
 			Total: total,
 		},
-		Msg: "ok",
+		Msg: "查询列表成功",
 	}
 }

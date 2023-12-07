@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"SparkForge/repository/db/model"
+	"SparkForge/db/model"
 	"context"
 
 	"gorm.io/gorm"

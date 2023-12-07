@@ -2,29 +2,26 @@ package api
 
 import (
 	"SparkForge/config"
+	"SparkForge/pkg/ctl"
 	"SparkForge/pkg/util"
+	"SparkForge/types"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 	"io"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
-	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket"
 )
 
 type Message struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
-}
-
-type GetStoryReq struct {
-	Mood     string `json:"mood"`
-	Keywords string `json:"keywords"`
 }
 
 /**
@@ -33,20 +30,19 @@ type GetStoryReq struct {
  * @author iflytek
  */
 
-	var hostUrl = "wss://spark-api.xf-yun.com/v3.1/chat"
+var hostUrl = "wss://spark-api.xf-yun.com/v3.1/chat"
 
-
-func GetStoryHandler() gin.HandlerFunc {
+// GenerateStoryHandler 生成对应的内容
+func GenerateStoryHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		var req GetStoryReq
+		var req types.GenerateStoryReq
 		if err := ctx.ShouldBind(&req); err != nil {
 			util.LogrusObj.Infoln(err)
 			ctx.JSON(http.StatusOK, ErrorResponse(err))
 			return
 		}
-		ctx.JSON(http.StatusOK, gin.H{
-			"story" : getStoryFromSpark(req.Keywords, req.Mood),
-		})
+
+		ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(getStoryFromSpark(req.Keywords, req.Mood)))
 	}
 }
 
@@ -108,7 +104,7 @@ func getStoryFromSpark(keywords string, mood string) string {
 			// usage := payload["usage"].(map[string]interface{})
 			// temp := usage["text"].(map[string]interface{})
 			// // totalTokens := temp["total_tokens"].(float64)
- 			// // fmt.Println("total_tokens:", totalTokens)
+			// // fmt.Println("total_tokens:", totalTokens)
 			conn.Close()
 			break
 		}
@@ -122,7 +118,6 @@ func getStoryFromSpark(keywords string, mood string) string {
 // 生成参数
 func genParams1(appid, question string) map[string]interface{} { // 根据实际情况修改返回的数据结构和字段名
 
-
 	messages := []Message{
 		{Role: "user", Content: question},
 	}
@@ -133,7 +128,7 @@ func genParams1(appid, question string) map[string]interface{} { // 根据实际
 		},
 		"parameter": map[string]interface{}{ // 根据实际情况修改返回的数据结构和字段名
 			"chat": map[string]interface{}{ // 根据实际情况修改返回的数据结构和字段名
-				"domain":      "generalv3",    // 根据实际情况修改返回的数据结构和字段名
+				"domain":      "generalv3",  // 根据实际情况修改返回的数据结构和字段名
 				"temperature": float64(0.8), // 根据实际情况修改返回的数据结构和字段名
 				"top_k":       int64(6),     // 根据实际情况修改返回的数据结构和字段名
 				"max_tokens":  int64(8192),  // 根据实际情况修改返回的数据结构和字段名

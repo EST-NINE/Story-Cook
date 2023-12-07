@@ -38,11 +38,11 @@ func (dao *StoryDao) CreateStory(story *model.Story) (err error) {
 	return
 }
 
-// ListStories 得到故事列表
-func (dao *StoryDao) ListStories(start, limit int, uid uint) (stories []model.Story, total int64, err error) {
+// ListStory 得到故事列表
+func (dao *StoryDao) ListStory(page, limit int, uid uint) (stories []model.Story, total int64, err error) {
 	err = dao.DB.Model(&model.Story{}).Preload("User").Where("uid = ?", uid).
 		Count(&total).
-		Limit(limit).Offset((start - 1) * limit).
+		Limit(limit).Offset((page - 1) * limit).
 		Find(&stories).Error
 
 	return

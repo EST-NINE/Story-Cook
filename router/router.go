@@ -39,6 +39,9 @@ func NewRouter() *gin.Engine {
 			authed.POST("story/deleteStory", api.DeleteStoryHandler())
 			authed.POST("story/updateStory", api.UpdateStoryHandler())
 			authed.POST("story/selectStory", api.SelectStoryHandler())
+
+			// 彩蛋操作
+			authed.POST("menu/isMenu", api.SelectMenuHandler())
 		}
 	}
 

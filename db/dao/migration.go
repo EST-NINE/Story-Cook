@@ -8,7 +8,7 @@ import (
 func migration() {
 	// 自动迁移模式
 	err := _db.Set("gorm:table_options", "charset=utf8mb4").
-		AutoMigrate(&model.User{}, &model.Story{})
+		AutoMigrate(&model.User{}, &model.Story{}, &model.Menu{})
 	if err != nil {
 		return
 	}

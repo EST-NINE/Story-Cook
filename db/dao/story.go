@@ -43,6 +43,7 @@ func (dao *StoryDao) CreateStory(story *model.Story) (err error) {
 func (dao *StoryDao) ListStory(page, limit int, uid uint) (stories []model.Story, total int64, err error) {
 	err = dao.DB.Model(&model.Story{}).Preload("User").Where("uid = ?", uid).
 		Count(&total).
+		Order("created_at DESC").
 		Limit(limit).Offset((page - 1) * limit).
 		Find(&stories).Error
 

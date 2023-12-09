@@ -42,6 +42,8 @@ func NewRouter() *gin.Engine {
 
 			// 彩蛋操作
 			authed.POST("menu/isMenu", api.SelectMenuHandler())
+			authed.POST("menu/createUserMenu", api.CreateUserMenuHandler())
+			authed.POST("menu/listUserMenu", api.ListUserMenuHandler())
 		}
 	}
 

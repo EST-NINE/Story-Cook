@@ -7,3 +7,11 @@ type Menu struct {
 	Keywords string
 	Content  string `gorm:"type:longtext"`
 }
+
+type UserMenu struct {
+	gorm.Model
+	User     User `gorm:"ForeignKey:Uid"`
+	Uid      uint `gorm:"not null"`
+	Keywords string
+	Content  string `gorm:"type:longtext"`
+}

@@ -41,9 +41,9 @@ func InitMysql() {
 		util.LogrusObj.Error(err)
 	}
 	sqlDB, _ := db.DB()
-	sqlDB.SetMaxIdleConns(20)  // 设置连接池，空闲
-	sqlDB.SetMaxOpenConns(100) // 打开
-	sqlDB.SetConnMaxLifetime(time.Second * 30)
+	sqlDB.SetMaxIdleConns(20)                  // 设置数据库连接池中空闲连接的最大数量
+	sqlDB.SetMaxOpenConns(100)                 // 设置数据库连接池中最大连接数
+	sqlDB.SetConnMaxLifetime(time.Second * 30) // 设置数据库连接的最大生命周期
 	_db = db
 	migration()
 }

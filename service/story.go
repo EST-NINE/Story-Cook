@@ -8,20 +8,9 @@ import (
 	"SparkForge/types"
 	"context"
 	"errors"
-	"sync"
 )
 
 type StorySrv struct {
-}
-
-var StorySrvIns *StorySrv
-var StorySrvOnce sync.Once
-
-func GetStorySrv() *StorySrv {
-	StorySrvOnce.Do(func() {
-		StorySrvIns = &StorySrv{}
-	})
-	return StorySrvIns
 }
 
 // CreateStory 创建故事

@@ -18,8 +18,8 @@ func UserRegisterHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetUserSrv()
-	resp, err := server.Register(ctx.Request.Context(), &req)
+	userSrv := service.UserSrv{}
+	resp, err := userSrv.Register(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -37,8 +37,8 @@ func UserLoginHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetUserSrv()
-	resp, err := server.Login(ctx.Request.Context(), &req)
+	userSrv := service.UserSrv{}
+	resp, err := userSrv.Login(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -56,8 +56,8 @@ func UserUpdatePwdHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetUserSrv()
-	resp, err := server.UpdatePwd(ctx.Request.Context(), &req)
+	userSrv := service.UserSrv{}
+	resp, err := userSrv.UpdatePwd(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -75,8 +75,8 @@ func UserUpdateInfoHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetUserSrv()
-	resp, err := server.UpdateInfo(ctx.Request.Context(), &req)
+	userSrv := service.UserSrv{}
+	resp, err := userSrv.UpdateInfo(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -88,8 +88,8 @@ func UserUpdateInfoHandler(ctx *gin.Context) {
 func GetUserInfoHandler(ctx *gin.Context) {
 
 	// 处理响应
-	server := service.GetUserSrv()
-	resp, err := server.UserInfo(ctx.Request.Context())
+	userSrv := service.UserSrv{}
+	resp, err := userSrv.UserInfo(ctx.Request.Context())
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 	}

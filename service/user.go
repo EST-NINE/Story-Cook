@@ -10,20 +10,9 @@ import (
 	"errors"
 	"fmt"
 	"gorm.io/gorm"
-	"sync"
 )
 
-var UserSrvIns *UserSrv
-var UserSrvOnce sync.Once
-
 type UserSrv struct {
-}
-
-func GetUserSrv() *UserSrv {
-	UserSrvOnce.Do(func() {
-		UserSrvIns = &UserSrv{}
-	})
-	return UserSrvIns
 }
 
 // Register 注册用户

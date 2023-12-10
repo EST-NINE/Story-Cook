@@ -18,8 +18,8 @@ func SelectMenuHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetMenuSrv()
-	resp, err := server.SelectMenu(ctx.Request.Context(), &req)
+	menuSrv := service.MenuSrv{}
+	resp, err := menuSrv.SelectMenu(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -38,8 +38,8 @@ func CreateUserMenuHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetMenuSrv()
-	resp, err := server.CreateUserMenu(ctx.Request.Context(), &req)
+	menuSrv := service.MenuSrv{}
+	resp, err := menuSrv.CreateUserMenu(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -61,8 +61,8 @@ func ListUserMenuHandler(ctx *gin.Context) {
 	if req.Limit == 0 {
 		req.Limit = 15
 	}
-	server := service.GetMenuSrv()
-	resp, err := server.ListUserMenu(ctx.Request.Context(), &req)
+	menuSrv := service.MenuSrv{}
+	resp, err := menuSrv.ListUserMenu(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return

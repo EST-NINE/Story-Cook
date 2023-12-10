@@ -9,20 +9,9 @@ import (
 	"context"
 	"errors"
 	"gorm.io/gorm"
-	"sync"
 )
 
 type MenuSrv struct {
-}
-
-var MenuSrvIns *MenuSrv
-var MenuSrvOnce sync.Once
-
-func GetMenuSrv() *MenuSrv {
-	MenuSrvOnce.Do(func() {
-		MenuSrvIns = &MenuSrv{}
-	})
-	return MenuSrvIns
 }
 
 // SelectMenu 判断是否是彩蛋

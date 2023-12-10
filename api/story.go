@@ -18,8 +18,8 @@ func CreateStoryHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetStorySrv()
-	resp, err := server.CreateStory(ctx.Request.Context(), &req)
+	storySrv := service.StorySrv{}
+	resp, err := storySrv.CreateStory(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -40,8 +40,8 @@ func ListStoryHandler(ctx *gin.Context) {
 	if req.Limit == 0 {
 		req.Limit = 15
 	}
-	server := service.GetStorySrv()
-	resp, err := server.ListStory(ctx.Request.Context(), &req)
+	storySrv := service.StorySrv{}
+	resp, err := storySrv.ListStory(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -59,8 +59,8 @@ func DeleteStoryHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetStorySrv()
-	resp, err := server.DeleteStory(ctx.Request.Context(), &req)
+	storySrv := service.StorySrv{}
+	resp, err := storySrv.DeleteStory(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -78,8 +78,8 @@ func UpdateStoryHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetStorySrv()
-	resp, err := server.UpdateStory(ctx.Request.Context(), &req)
+	storySrv := service.StorySrv{}
+	resp, err := storySrv.UpdateStory(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -97,8 +97,8 @@ func SelectStoryHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	server := service.GetStorySrv()
-	resp, err := server.SelectStory(ctx.Request.Context(), &req)
+	storySrv := service.StorySrv{}
+	resp, err := storySrv.SelectStory(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return

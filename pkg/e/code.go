@@ -17,7 +17,4 @@ const (
 	ErrorAuthToken             = 30003 // Token生成失败
 
 	ErrorDatabase = 40001 // 数据库操作出错，请重试
-
-	ErrorOss        = 50001 // OSS操作出错
-	ErrorUploadFile = 50002 // 文件上传失败
 )

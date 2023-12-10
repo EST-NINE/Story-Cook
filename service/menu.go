@@ -15,7 +15,7 @@ type MenuSrv struct {
 }
 
 // SelectMenu 判断是否是彩蛋
-func (s *MenuSrv) SelectMenu(c context.Context, req *types.SelectMenuReq) (resp interface{}, err error) {
+func (s *MenuSrv) SelectMenu(c context.Context, req *types.SelectMenuReq) (resp *types.MenuResp, err error) {
 	menuDao := dao.NewMenuDao(c)
 	menu, err := menuDao.SelectMenu(req.Keywords)
 	if err != nil {
@@ -25,35 +25,33 @@ func (s *MenuSrv) SelectMenu(c context.Context, req *types.SelectMenuReq) (resp 
 		return
 	}
 
-	menuResp := &types.MenuResp{
+	return &types.MenuResp{
 		ID:       menu.ID,
 		Keywords: menu.Keywords,
 		Content:  menu.Content,
 		CreateAt: menu.CreatedAt.Format("2006-01-02 15:04:05"),
-	}
-
-	return ctl.SuccessWithDataResp(menuResp), nil
+	}, nil
 }
 
 // CreateUserMenu 添加彩蛋用户成就
-func (s *MenuSrv) CreateUserMenu(c context.Context, req *types.CreateUserMenuReq) (resp interface{}, err error) {
+func (s *MenuSrv) CreateUserMenu(c context.Context, req *types.CreateUserMenuReq) error {
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return
+		return err
 	}
 
 	user, err := dao.NewUserDao(c).FindUserByUserId(userInfo.Id)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return
+		return err
 	}
 
 	menuDao := dao.NewMenuDao(c)
 	_, err = menuDao.FindUserMenuByKeywordsAndUserId(userInfo.Id, req.Keywords)
 	if err == nil {
 		err = errors.New("已经添加过这个成就了哦")
-		return
+		return err
 	}
 
 	userMenu := model.UserMenu{
@@ -65,14 +63,18 @@ func (s *MenuSrv) CreateUserMenu(c context.Context, req *types.CreateUserMenuReq
 	err = menuDao.CreateUserMenu(&userMenu)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return
+		return err
 	}
 
-	return ctl.SuccessResp(), nil
+	return nil
 }
 
 // ListUserMenu 得到对应用户的彩蛋成就列表
-func (s *MenuSrv) ListUserMenu(c context.Context, req *types.ListUserMenuReq) (resp interface{}, err error) {
+func (s *MenuSrv) ListUserMenu(c context.Context, req *types.ListUserMenuReq) (resp []*types.MenuResp, total int64, err error) {
+	if req.Limit == 0 {
+		req.Limit = 15
+	}
+
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
@@ -94,5 +96,6 @@ func (s *MenuSrv) ListUserMenu(c context.Context, req *types.ListUserMenuReq) (r
 			CreateAt: userMenu.CreatedAt.Format("2006-01-02 15:04:05"),
 		})
 	}
-	return ctl.ListResp(listUserMenuResp, total), nil
+
+	return listUserMenuResp, total, nil
 }

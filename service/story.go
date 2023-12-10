@@ -14,24 +14,24 @@ type StorySrv struct {
 }
 
 // CreateStory 创建故事
-func (s *StorySrv) CreateStory(c context.Context, req *types.CreateStoryReq) (resp interface{}, err error) {
+func (s *StorySrv) CreateStory(c context.Context, req *types.CreateStoryReq) error {
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return
+		return err
 	}
 
 	user, err := dao.NewUserDao(c).FindUserByUserId(userInfo.Id)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return
+		return err
 	}
 
 	storyDao := dao.NewStoryDao(c)
 	_, err = storyDao.FindStoryByTitleAndUserId(userInfo.Id, req.Title)
 	if err == nil {
 		err = errors.New("已经创建过该标题的故事哦")
-		return
+		return err
 	}
 
 	story := model.Story{
@@ -45,14 +45,18 @@ func (s *StorySrv) CreateStory(c context.Context, req *types.CreateStoryReq) (re
 	err = storyDao.CreateStory(&story)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return
+		return err
 	}
 
-	return ctl.SuccessResp(), nil
+	return nil
 }
 
 // ListStory 得到对应用户的故事
-func (s *StorySrv) ListStory(c context.Context, req *types.ListStoryReq) (resp interface{}, err error) {
+func (s *StorySrv) ListStory(c context.Context, req *types.ListStoryReq) (resp []*types.StoryResp, total int64, err error) {
+	if req.Limit == 0 {
+		req.Limit = 15
+	}
+
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
@@ -77,28 +81,28 @@ func (s *StorySrv) ListStory(c context.Context, req *types.ListStoryReq) (resp i
 		})
 	}
 
-	return ctl.ListResp(listStoryResp, total), nil
+	return listStoryResp, total, nil
 }
 
 // DeleteStory 删除故事
-func (s *StorySrv) DeleteStory(c context.Context, req *types.DeleteStoryReq) (resp interface{}, err error) {
+func (s *StorySrv) DeleteStory(c context.Context, req *types.DeleteStoryReq) error {
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return
+		return err
 	}
 
 	err = dao.NewStoryDao(c).DeleteStory(userInfo.Id, req.Title)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return
+		return err
 	}
 
-	return ctl.SuccessResp(), nil
+	return nil
 }
 
 // UpdateStory 更新故事
-func (s *StorySrv) UpdateStory(c context.Context, req *types.UpdateStoryReq) (resp interface{}, err error) {
+func (s *StorySrv) UpdateStory(c context.Context, req *types.UpdateStoryReq) (resp *types.StoryResp, err error) {
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
@@ -117,19 +121,18 @@ func (s *StorySrv) UpdateStory(c context.Context, req *types.UpdateStoryReq) (re
 		util.LogrusObj.Infoln(err)
 		return
 	}
-	storyResp := &types.StoryResp{
+	return &types.StoryResp{
 		ID:        story.ID,
 		Title:     story.Title,
 		Mood:      story.Mood,
 		Keywords:  story.Keywords,
 		Content:   story.Content,
 		CreatedAt: story.CreatedAt.Format("2006-01-02 15:04:05"),
-	}
-	return ctl.SuccessWithDataResp(storyResp), nil
+	}, nil
 }
 
 // SelectStory 根据mood分类查找story
-func (s *StorySrv) SelectStory(c context.Context, req *types.SelectStoryReq) (resp interface{}, err error) {
+func (s *StorySrv) SelectStory(c context.Context, req *types.SelectStoryReq) (resp []*types.StoryResp, total int64, err error) {
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
@@ -154,5 +157,5 @@ func (s *StorySrv) SelectStory(c context.Context, req *types.SelectStoryReq) (re
 		})
 	}
 
-	return ctl.ListResp(listStoryResp, total), nil
+	return listStoryResp, total, nil
 }

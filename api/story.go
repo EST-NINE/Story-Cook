@@ -1,6 +1,7 @@
 package api
 
 import (
+	"SparkForge/pkg/ctl"
 	"SparkForge/pkg/util"
 	"SparkForge/service"
 	"SparkForge/types"
@@ -19,12 +20,12 @@ func CreateStoryHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	resp, err := storySrv.CreateStory(ctx.Request.Context(), &req)
+	err := storySrv.CreateStory(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.SuccessResp())
 }
 
 // ListStoryHandler 得到对应用户的故事列表
@@ -37,16 +38,13 @@ func ListStoryHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	if req.Limit == 0 {
-		req.Limit = 15
-	}
 	storySrv := service.StorySrv{}
-	resp, err := storySrv.ListStory(ctx.Request.Context(), &req)
+	resp, total, err := storySrv.ListStory(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.ListResp(resp, total))
 }
 
 // DeleteStoryHandler 删除故事
@@ -60,12 +58,12 @@ func DeleteStoryHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	resp, err := storySrv.DeleteStory(ctx.Request.Context(), &req)
+	err := storySrv.DeleteStory(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.SuccessResp())
 }
 
 // UpdateStoryHandler 更新故事
@@ -84,7 +82,7 @@ func UpdateStoryHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(resp))
 }
 
 // SelectStoryHandler 根据mood分类故事
@@ -98,10 +96,10 @@ func SelectStoryHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	resp, err := storySrv.SelectStory(ctx.Request.Context(), &req)
+	resp, total, err := storySrv.SelectStory(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.ListResp(resp, total))
 }

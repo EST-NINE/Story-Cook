@@ -1,6 +1,7 @@
 package api
 
 import (
+	"SparkForge/pkg/ctl"
 	"SparkForge/pkg/util"
 	"SparkForge/service"
 	"SparkForge/types"
@@ -19,12 +20,12 @@ func UserRegisterHandler(ctx *gin.Context) {
 
 	// 处理响应
 	userSrv := service.UserSrv{}
-	resp, err := userSrv.Register(ctx.Request.Context(), &req)
+	err := userSrv.Register(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.SuccessResp())
 }
 
 // UserLoginHandler 用户登录
@@ -57,12 +58,12 @@ func UserUpdatePwdHandler(ctx *gin.Context) {
 
 	// 处理响应
 	userSrv := service.UserSrv{}
-	resp, err := userSrv.UpdatePwd(ctx.Request.Context(), &req)
+	err := userSrv.UpdatePwd(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.SuccessResp())
 }
 
 // UserUpdateInfoHandler 用户修改信息
@@ -76,12 +77,12 @@ func UserUpdateInfoHandler(ctx *gin.Context) {
 
 	// 处理响应
 	userSrv := service.UserSrv{}
-	resp, err := userSrv.UpdateInfo(ctx.Request.Context(), &req)
+	err := userSrv.UpdateInfo(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.SuccessResp())
 }
 
 // GetUserInfoHandler 用户信息
@@ -93,5 +94,5 @@ func GetUserInfoHandler(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 	}
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(resp))
 }

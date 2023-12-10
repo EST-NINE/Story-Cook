@@ -16,7 +16,7 @@ type UserSrv struct {
 }
 
 // Register 注册用户
-func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
+func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) error {
 	userDao := dao.NewUserDao(c)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if err != nil {
@@ -28,26 +28,26 @@ func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) (resp i
 			// 密码加密存储
 			if err = user.SetPassword(req.Password); err != nil {
 				util.LogrusObj.Info(err)
-				return
+				return err
 			}
 
 			if err = userDao.CreateUser(user); err != nil {
 				util.LogrusObj.Info(err)
-				return
+				return err
 			}
 
-			return ctl.SuccessResp(), nil
+			return nil
 		}
-		return nil, err
+		return err
 	}
 
 	err = errors.New("用户已存在")
 	util.LogrusObj.Infoln(err)
-	return nil, err
+	return err
 }
 
 // Login 用户登陆函数
-func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp interface{}, err error) {
+func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp types.TokenDataResp, err error) {
 	userDao := dao.NewUserDao(c)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -77,16 +77,15 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp inte
 		User:  userResp,
 		Token: token,
 	}, nil
-
 }
 
 // UpdatePwd 用户更改密码
-func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) (resp interface{}, err error) {
+func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) error {
 	// 找到用户
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return err
 	}
 
 	userDao := dao.NewUserDao(c)
@@ -94,62 +93,62 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) (res
 
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return err
 	}
 
 	if req.OriginPwd == "" {
 		err = errors.New("原密码不能为空")
 		util.LogrusObj.Info(err)
-		return nil, err
+		return err
 	}
 
 	if !user.CheckPassword(req.OriginPwd) {
 		err = errors.New("原密码错误")
 		util.LogrusObj.Info(err)
-		return nil, err
+		return err
 	}
 
 	if req.UpdatePwd == "" {
 		err = errors.New("更改的密码不能为空")
 		util.LogrusObj.Info(err)
-		return nil, err
+		return err
 	}
 
 	if err := user.SetPassword(req.UpdatePwd); err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return err
 	}
 
 	err = userDao.UpdateUserById(userInfo.Id, user)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return err
 	}
 
-	return ctl.SuccessResp(), nil
+	return nil
 }
 
 // UpdateInfo 用户更改信息
-func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) (resp interface{}, err error) {
+func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) error {
 	// 找到用户
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Info(err)
-		return nil, err
+		return err
 	}
 
 	userDao := dao.NewUserDao(c)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return nil, err
+		return err
 	}
 
 	if req.UpdateName != "" {
 		_, err := userDao.FindUserByUserName(req.UpdateName)
 		if err == nil {
 			err = errors.New("用户已存在")
-			return nil, err
+			return err
 		}
 		user.UserName = req.UpdateName
 	}
@@ -161,30 +160,28 @@ func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) (re
 	err = userDao.UpdateUserById(userInfo.Id, user)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return nil, err
+		return err
 	}
 
-	return ctl.SuccessResp(), nil
+	return nil
 }
 
 // UserInfo 得到用户的信息
-func (s *UserSrv) UserInfo(c context.Context) (resp interface{}, err error) {
+func (s *UserSrv) UserInfo(c context.Context) (resp *types.UserResp, err error) {
 	// 找到用户
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
-		return nil, err
+		return
 	}
 
 	userDao := dao.NewUserDao(c)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
 
-	userResp := &types.UserResp{
+	return &types.UserResp{
 		ID:       user.ID,
 		UserName: user.UserName,
 		Kitchen:  user.Kitchen,
 		CreateAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
-	}
-
-	return ctl.SuccessWithDataResp(userResp), nil
+	}, nil
 }

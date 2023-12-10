@@ -1,6 +1,7 @@
 package api
 
 import (
+	"SparkForge/pkg/ctl"
 	"SparkForge/pkg/util"
 	"SparkForge/service"
 	"SparkForge/types"
@@ -25,7 +26,7 @@ func SelectMenuHandler(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(resp))
 }
 
 // CreateUserMenuHandler 给用户添加彩蛋成就
@@ -39,13 +40,13 @@ func CreateUserMenuHandler(ctx *gin.Context) {
 
 	// 处理响应
 	menuSrv := service.MenuSrv{}
-	resp, err := menuSrv.CreateUserMenu(ctx.Request.Context(), &req)
+	err := menuSrv.CreateUserMenu(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
 
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.SuccessResp())
 }
 
 // ListUserMenuHandler 得到用户的彩蛋成就列表
@@ -58,15 +59,12 @@ func ListUserMenuHandler(ctx *gin.Context) {
 	}
 
 	// 处理响应
-	if req.Limit == 0 {
-		req.Limit = 15
-	}
 	menuSrv := service.MenuSrv{}
-	resp, err := menuSrv.ListUserMenu(ctx.Request.Context(), &req)
+	resp, total, err := menuSrv.ListUserMenu(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
 
-	ctx.JSON(http.StatusOK, resp)
+	ctx.JSON(http.StatusOK, ctl.ListResp(resp, total))
 }

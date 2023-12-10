@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+
 	"gorm.io/gorm"
 
 	"SparkForge/db/model"
@@ -19,18 +20,16 @@ func NewUserDao(c context.Context) *UserDao {
 }
 
 // CreateUser 创建User
-func (dao *UserDao) CreateUser(user *model.User) (err error) {
-	err = dao.DB.Model(&model.User{}).Create(user).Error
+func (dao *UserDao) CreateUser(user *model.User) error {
+	return dao.DB.Model(&model.User{}).Create(user).Error
 
-	return
 }
 
 // UpdateUserById 根据 id 更新用户信息
-func (dao *UserDao) UpdateUserById(uId uint, user *model.User) (err error) {
-	err = dao.DB.Model(&model.User{}).Where("id=?", uId).
+func (dao *UserDao) UpdateUserById(uId uint, user *model.User) error {
+	return dao.DB.Model(&model.User{}).Where("id=?", uId).
 		Updates(&user).Error
 
-	return
 }
 
 // FindUserByUserName 根据用户名找到用户

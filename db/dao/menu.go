@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+
 	"gorm.io/gorm"
 
 	"SparkForge/db/model"
@@ -33,10 +34,9 @@ func (dao *MenuDao) FindMenuByKeywords(keywords string) (menu *model.Menu, err e
 }
 
 // CreateUserMenu 创建成就
-func (dao *MenuDao) CreateUserMenu(userMenu *model.UserMenu) (err error) {
-	err = dao.DB.Model(&model.UserMenu{}).Create(&userMenu).Error
+func (dao *MenuDao) CreateUserMenu(userMenu *model.UserMenu) error {
+	return dao.DB.Model(&model.UserMenu{}).Create(&userMenu).Error
 
-	return
 }
 
 // FindUserMenuByKeywordsAndUserId 根据关键词和用户id查找成就

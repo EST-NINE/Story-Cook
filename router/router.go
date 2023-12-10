@@ -3,9 +3,10 @@ package router
 import (
 	"net/http"
 
+	"github.com/gin-gonic/gin"
+
 	"SparkForge/api"
 	"SparkForge/middleware"
-	"github.com/gin-gonic/gin"
 )
 
 func NewRouter() *gin.Engine {

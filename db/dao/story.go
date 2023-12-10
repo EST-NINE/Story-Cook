@@ -2,6 +2,7 @@ package dao
 
 import (
 	"context"
+
 	"gorm.io/gorm"
 
 	"SparkForge/db/model"
@@ -34,10 +35,9 @@ func (dao *StoryDao) FindStoryByTitleAndUserId(uid uint, title string) (story *m
 }
 
 // CreateStory 创建故事
-func (dao *StoryDao) CreateStory(story *model.Story) (err error) {
-	err = dao.DB.Model(&model.Story{}).Create(&story).Error
+func (dao *StoryDao) CreateStory(story *model.Story) error {
+	return dao.DB.Model(&model.Story{}).Create(&story).Error
 
-	return
 }
 
 // ListStory 得到故事列表

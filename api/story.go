@@ -1,8 +1,9 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 
 	"SparkForge/pkg/ctl"
 	"SparkForge/pkg/util"

@@ -2,9 +2,10 @@ package middleware
 
 import (
 	"errors"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 
 	"SparkForge/pkg/ctl"
 	"SparkForge/pkg/e"

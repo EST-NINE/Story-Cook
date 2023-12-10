@@ -1,10 +1,6 @@
 package api
 
 import (
-	"SparkForge/config"
-	"SparkForge/pkg/ctl"
-	"SparkForge/pkg/util"
-	"SparkForge/types"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"
@@ -17,6 +13,11 @@ import (
 	"net/url"
 	"strings"
 	"time"
+
+	"SparkForge/config"
+	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/util"
+	"SparkForge/types"
 )
 
 type Message struct {

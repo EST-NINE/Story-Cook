@@ -1,10 +1,11 @@
 package dao
 
 import (
-	"SparkForge/db/model"
-	"SparkForge/types"
 	"context"
 	"gorm.io/gorm"
+
+	"SparkForge/db/model"
+	"SparkForge/types"
 )
 
 type StoryDao struct {

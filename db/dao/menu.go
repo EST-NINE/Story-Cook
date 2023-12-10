@@ -1,9 +1,10 @@
 package dao
 
 import (
-	"SparkForge/db/model"
 	"context"
 	"gorm.io/gorm"
+
+	"SparkForge/db/model"
 )
 
 type MenuDao struct {

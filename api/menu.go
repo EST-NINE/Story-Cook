@@ -1,12 +1,13 @@
 package api
 
 import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+
 	"SparkForge/pkg/ctl"
 	"SparkForge/pkg/util"
 	"SparkForge/service"
 	"SparkForge/types"
-	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 // SelectMenuHandler 判断是否触发彩蛋成就

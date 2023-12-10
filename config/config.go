@@ -1,8 +1,9 @@
 package config
 
 import (
-	"SparkForge/pkg/util"
 	"gopkg.in/ini.v1"
+
+	"SparkForge/pkg/util"
 )
 
 var (
@@ -21,9 +22,9 @@ var (
 	DbPassWord string
 	DbName     string
 
-	AppId      string
-	ApiKey     string
-	ApiSecret  string
+	AppId     string
+	ApiKey    string
+	ApiSecret string
 )
 
 func InitFile() {
@@ -59,7 +60,7 @@ func LoadRedis(file *ini.File) {
 }
 
 func LoadSpark(file *ini.File) {
-	AppId =  file.Section("spark").Key("AppId").String()
-	ApiKey =  file.Section("spark").Key("ApiKey").String()
+	AppId = file.Section("spark").Key("AppId").String()
+	ApiKey = file.Section("spark").Key("ApiKey").String()
 	ApiSecret = file.Section("spark").Key("ApiSecret").String()
 }

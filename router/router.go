@@ -1,10 +1,11 @@
 package router
 
 import (
+	"net/http"
+
 	"SparkForge/api"
 	"SparkForge/middleware"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func NewRouter() *gin.Engine {

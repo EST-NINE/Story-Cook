@@ -33,17 +33,15 @@ type Message struct {
 var hostUrl = "wss://spark-api.xf-yun.com/v3.1/chat"
 
 // GenerateStoryHandler 生成对应的内容
-func GenerateStoryHandler() gin.HandlerFunc {
-	return func(ctx *gin.Context) {
-		var req types.GenerateStoryReq
-		if err := ctx.ShouldBind(&req); err != nil {
-			util.LogrusObj.Infoln(err)
-			ctx.JSON(http.StatusOK, ErrorResponse(err))
-			return
-		}
-
-		ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(getStoryFromSpark(req.Keywords, req.Mood)))
+func GenerateStoryHandler(ctx *gin.Context) {
+	var req types.GenerateStoryReq
+	if err := ctx.ShouldBind(&req); err != nil {
+		util.LogrusObj.Infoln(err)
+		ctx.JSON(http.StatusOK, ErrorResponse(err))
+		return
 	}
+
+	ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(getStoryFromSpark(req.Keywords, req.Mood)))
 }
 
 // getStoryFromSpark 根据关键词从星火api获取故事

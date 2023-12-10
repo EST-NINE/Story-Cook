@@ -18,8 +18,8 @@ func NewRouter() *gin.Engine {
 		})
 
 		// 用户操作
-		v1.POST("user/register", api.UserRegisterHandler())
-		v1.POST("user/login", api.UserLoginHandler())
+		v1.POST("user/register", api.UserRegisterHandler)
+		v1.POST("user/login", api.UserLoginHandler)
 
 		authed := v1.Group("/") // 登录保护
 		authed.Use(middleware.JWT())
@@ -28,22 +28,22 @@ func NewRouter() *gin.Engine {
 			authed.GET("user/isLogin", func(c *gin.Context) {
 				c.JSON(http.StatusOK, "登录成功！")
 			})
-			authed.POST("user/updatePwd", api.UserUpdatePwdHandler())
-			authed.POST("user/updateInfo", api.UserUpdateInfoHandler())
-			authed.GET("user/info", api.GetUserInfoHandler())
+			authed.PUT("user/password", api.UserUpdatePwdHandler)
+			authed.PUT("user/information", api.UserUpdateInfoHandler)
+			authed.GET("user/information", api.GetUserInfoHandler)
 
 			// 故事操作
-			authed.POST("story/generateStory", api.GenerateStoryHandler())
-			authed.POST("story/createStory", api.CreateStoryHandler())
-			authed.POST("story/listStory", api.ListStoryHandler())
-			authed.POST("story/deleteStory", api.DeleteStoryHandler())
-			authed.POST("story/updateStory", api.UpdateStoryHandler())
-			authed.POST("story/selectStory", api.SelectStoryHandler())
+			authed.POST("story/generate", api.GenerateStoryHandler)
+			authed.POST("story/save", api.CreateStoryHandler)
+			authed.POST("story/list", api.ListStoryHandler)
+			authed.POST("story/select", api.SelectStoryHandler)
+			authed.DELETE("story", api.DeleteStoryHandler)
+			authed.PUT("story", api.UpdateStoryHandler)
 
 			// 彩蛋操作
-			authed.POST("menu/isMenu", api.SelectMenuHandler())
-			authed.POST("menu/createUserMenu", api.CreateUserMenuHandler())
-			authed.POST("menu/listUserMenu", api.ListUserMenuHandler())
+			authed.POST("userMenu/isMenu", api.SelectMenuHandler)
+			authed.POST("userMenu/create", api.CreateUserMenuHandler)
+			authed.POST("userMenu/list", api.ListUserMenuHandler)
 		}
 	}
 

@@ -24,5 +24,5 @@ type UserResp struct {
 	ID       uint   `json:"id"`        // 用户ID
 	UserName string `json:"user_name"` // 用户名
 	Kitchen  string `json:"kitchen"`   // 厨房名
-	CreateAt int64  `json:"create_at"` // 创建
+	CreateAt string `json:"create_at"` // 创建
 }

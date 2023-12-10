@@ -82,7 +82,7 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp inte
 		ID:       user.ID,
 		UserName: user.UserName,
 		Kitchen:  user.Kitchen,
-		CreateAt: user.CreatedAt.Unix(),
+		CreateAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 	return types.TokenDataResp{
 		User:  userResp,
@@ -194,7 +194,7 @@ func (s *UserSrv) UserInfo(c context.Context) (resp interface{}, err error) {
 		ID:       user.ID,
 		UserName: user.UserName,
 		Kitchen:  user.Kitchen,
-		CreateAt: user.CreatedAt.Unix(),
+		CreateAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 
 	return ctl.SuccessWithDataResp(userResp), nil

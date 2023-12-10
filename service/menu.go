@@ -46,7 +46,7 @@ func (s *MenuSrv) SelectMenu(c context.Context, req *types.SelectMenuReq) (resp 
 	return ctl.SuccessWithDataResp(menuResp), nil
 }
 
-// CreateUserMenu 添加用户成就
+// CreateUserMenu 添加彩蛋用户成就
 func (s *MenuSrv) CreateUserMenu(c context.Context, req *types.CreateUserMenuReq) (resp interface{}, err error) {
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {
@@ -82,7 +82,7 @@ func (s *MenuSrv) CreateUserMenu(c context.Context, req *types.CreateUserMenuReq
 	return ctl.SuccessResp(), nil
 }
 
-// ListUserMenu 得到对应用户的故事
+// ListUserMenu 得到对应用户的彩蛋成就列表
 func (s *MenuSrv) ListUserMenu(c context.Context, req *types.ListUserMenuReq) (resp interface{}, err error) {
 	userInfo, err := ctl.GetUserInfo(c)
 	if err != nil {

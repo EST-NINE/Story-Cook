@@ -74,18 +74,13 @@
 
 ```
 {
-    "status": 200,
-    "data": {
-        "user": {
-            "id": 2,
-            "user_name": "lxy",
-            "kitchen": "lxy的厨房",
-            "create_at": 1701557314,
-        },
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwidXNlcm5hbWUiOiJseHkiLCJleHAiOjE3MDE2NDM3MjUsImlzcyI6InRvLWRvLWxpc3QifQ.XOQFVHIcdttR0BpQFANUcbLmgstmZhQh5BM6hwm2Qek"
+    "user": {
+        "id": 12,
+        "user_name": "test",
+        "kitchen": "test的厨房",
+        "create_at": "2023-12-04 23:27:27"
     },
-    "msg": "操作成功",
-    "error": ""
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsInVzZXJuYW1lIjoidGVzdCIsImV4cCI6MTcwMjI2Nzk1NiwiaXNzIjoiU3BhcmtGb3JnZSJ9.iYws6hlG-DcJEvgnvCwgThxvISHW8g6Xo8r6CSfuOD4"
 }
 ```
 
@@ -188,7 +183,7 @@
         "id": 37,
         "user_name": "test566",
         "kitchen": "不知道叫什么名字的厨房",
-        "create_at": 1701956362
+        "create_at":  "2023-12-04 23:27:27"
     },
     "msg": "操作成功",
     "error": ""

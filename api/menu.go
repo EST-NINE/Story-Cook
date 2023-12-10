@@ -8,6 +8,7 @@ import (
 	"net/http"
 )
 
+// SelectMenuHandler 判断是否触发彩蛋成就
 func SelectMenuHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req types.SelectMenuReq
@@ -29,6 +30,7 @@ func SelectMenuHandler() gin.HandlerFunc {
 	}
 }
 
+// CreateUserMenuHandler 给用户添加彩蛋成就
 func CreateUserMenuHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req types.CreateUserMenuReq
@@ -50,6 +52,7 @@ func CreateUserMenuHandler() gin.HandlerFunc {
 	}
 }
 
+// ListUserMenuHandler 得到用户的彩蛋成就列表
 func ListUserMenuHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var req types.ListUserMenuReq

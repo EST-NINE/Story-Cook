@@ -86,8 +86,8 @@
 
 ## 2.1：更改密码
 
-- 请求路径：api/v1/user/updatePwd
-- 请求方法：POST
+- 请求路径：api/v1/user/password
+- 请求方法：PUT
 - 请求体(需要token认证)
 
 |    参数     | 含义  |         备注         |
@@ -124,8 +124,8 @@
 
 ## 2.2：更改用户个人信息
 
-- 请求路径：api/v1/user/updateInfo
-- 请求方法：POST
+- 请求路径：api/v1/user/information
+- 请求方法：PUT
 - 请求体(需要token认证)
 
 |     参数      |   含义   |         备注         |
@@ -162,7 +162,7 @@
 
 ## 2.3：得到登录用户的详细信息
 
-- 请求路径：api/v1/user/info
+- 请求路径：api/v1/user/information
 - 请求方法：Get
 - 请求体(需要token认证)：无
 
@@ -191,7 +191,7 @@
 ```
 
 ## 3.1：获取星火大模型V3.0生成的故事
-- 请求路径：api/v1/story/generateStory
+- 请求路径：api/v1/story/generate
 - 请求方法：Post
 - 请求体(需要token认证)
 
@@ -222,7 +222,7 @@
 }
 ```
 ## 3.2：数据库中创建对应用户的故事
-- 请求路径：api/v1/story/createStory
+- 请求路径：api/v1/story/save
 - 请求方法：Post
 - 请求体(需要token认证)
 
@@ -258,7 +258,7 @@
 ```
 
 ## 3.3：得到对应用户的故事列表
-- 请求路径：api/v1/story/listStory
+- 请求路径：api/v1/story/list
 - 请求方法：Post
 - 请求体(需要token认证)
 
@@ -314,8 +314,8 @@
 }
 ```
 ## 3.4：删除对应故事的历史记录
-- 请求路径：api/v1/story/deleteStory
-- 请求方法：Post
+- 请求路径：api/v1/story
+- 请求方法：DELETE
 - 请求体(需要token认证)
 
 |  参数   |     含义     | 备注 |
@@ -346,8 +346,8 @@
 }
 ```
 ## 3.5：修改历史记录
-- 请求路径：api/v1/story/updateStory
-- 请求方法：Post
+- 请求路径：api/v1/story
+- 请求方法：PUT
 - 请求体(需要token认证)
 
 |      参数      |      含义      |    备注     |
@@ -389,7 +389,7 @@
 }
 ```
 ## 3.6：根据mood分类查找历史记录
-- 请求路径：api/v1/story/selectStory
+- 请求路径：api/v1/story/select
 - 请求方法：Post
 - 请求体(需要token认证)
 
@@ -444,7 +444,7 @@
 }
 ```
 ## 4-1：触发彩蛋操作
-- 请求路径：api/v1/menu/isMenu
+- 请求路径：api/v1/userMenu/isMenu
 - 请求方法：Post
 - 请求体(需要token认证)
 
@@ -481,7 +481,7 @@
 }
 ```
 ## 4-2：添加彩蛋成就
-- 请求路径：api/v1/menu/createUserMenu
+- 请求路径：api/v1/userMenu/create
 - 请求方法：Post
 - 请求体(需要token认证)
 
@@ -515,7 +515,7 @@
 ```
 
 ## 4.3：得到对应用户的彩蛋成就列表
-- 请求路径：api/v1/menu/listUserMenu
+- 请求路径：api/v1/userMenu/list
 - 请求方法：Post
 - 请求体(需要token认证)
 

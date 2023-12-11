@@ -37,7 +37,6 @@ func (dao *StoryDao) FindStoryByTitleAndUserId(uid uint, title string) (story *m
 // CreateStory 创建故事
 func (dao *StoryDao) CreateStory(story *model.Story) error {
 	return dao.DB.Model(&model.Story{}).Create(&story).Error
-
 }
 
 // ListStory 得到故事列表

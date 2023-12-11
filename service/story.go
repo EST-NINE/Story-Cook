@@ -6,7 +6,7 @@ import (
 
 	"SparkForge/db/dao"
 	"SparkForge/db/model"
-	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/types"
 )
@@ -16,7 +16,7 @@ type StorySrv struct {
 
 // CreateStory 创建故事
 func (s *StorySrv) CreateStory(c context.Context, req *types.CreateStoryReq) error {
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return err
@@ -58,7 +58,7 @@ func (s *StorySrv) ListStory(c context.Context, req *types.ListStoryReq) (resp [
 		req.Limit = 15
 	}
 
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return
@@ -87,7 +87,7 @@ func (s *StorySrv) ListStory(c context.Context, req *types.ListStoryReq) (resp [
 
 // DeleteStory 删除故事
 func (s *StorySrv) DeleteStory(c context.Context, req *types.DeleteStoryReq) error {
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return err
@@ -104,7 +104,7 @@ func (s *StorySrv) DeleteStory(c context.Context, req *types.DeleteStoryReq) err
 
 // UpdateStory 更新故事
 func (s *StorySrv) UpdateStory(c context.Context, req *types.UpdateStoryReq) (resp *types.StoryResp, err error) {
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return
@@ -134,7 +134,7 @@ func (s *StorySrv) UpdateStory(c context.Context, req *types.UpdateStoryReq) (re
 
 // SelectStory 根据mood分类查找story
 func (s *StorySrv) SelectStory(c context.Context, req *types.SelectStoryReq) (resp []*types.StoryResp, total int64, err error) {
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return

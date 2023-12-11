@@ -9,7 +9,7 @@ import (
 
 	"SparkForge/db/dao"
 	"SparkForge/db/model"
-	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/types"
 )
@@ -84,7 +84,7 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp type
 // UpdatePwd 用户更改密码
 func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) error {
 	// 找到用户
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return err
@@ -133,7 +133,7 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) erro
 // UpdateInfo 用户更改信息
 func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) error {
 	// 找到用户
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Info(err)
 		return err
@@ -171,7 +171,7 @@ func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) err
 // UserInfo 得到用户的信息
 func (s *UserSrv) UserInfo(c context.Context) (resp *types.UserResp, err error) {
 	// 找到用户
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return

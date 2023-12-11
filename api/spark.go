@@ -16,7 +16,7 @@ import (
 	"github.com/gorilla/websocket"
 
 	"SparkForge/config"
-	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/types"
 )
@@ -43,7 +43,7 @@ func GenerateStoryHandler(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(getStoryFromSpark(req.Keywords, req.Mood)))
+	ctx.JSON(http.StatusOK, controller.SuccessWithDataResp(getStoryFromSpark(req.Keywords, req.Mood)))
 }
 
 // getStoryFromSpark 根据关键词从星火api获取故事

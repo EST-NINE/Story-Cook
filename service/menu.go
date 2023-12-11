@@ -8,7 +8,7 @@ import (
 
 	"SparkForge/db/dao"
 	"SparkForge/db/model"
-	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/types"
 )
@@ -37,7 +37,7 @@ func (s *MenuSrv) SelectMenu(c context.Context, req *types.SelectMenuReq) (resp 
 
 // CreateUserMenu 添加彩蛋用户成就
 func (s *MenuSrv) CreateUserMenu(c context.Context, req *types.CreateUserMenuReq) error {
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return err
@@ -77,7 +77,7 @@ func (s *MenuSrv) ListUserMenu(c context.Context, req *types.ListUserMenuReq) (r
 		req.Limit = 15
 	}
 
-	userInfo, err := ctl.GetUserInfo(c)
+	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return

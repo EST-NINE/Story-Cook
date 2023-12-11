@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/service"
 	"SparkForge/types"
@@ -28,7 +28,7 @@ func SelectMenuHandler(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(resp))
+	ctx.JSON(http.StatusOK, controller.SuccessWithDataResp(resp))
 }
 
 // CreateUserMenuHandler 给用户添加彩蛋成就
@@ -48,7 +48,7 @@ func CreateUserMenuHandler(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, ctl.SuccessResp())
+	ctx.JSON(http.StatusOK, controller.SuccessResp())
 }
 
 // ListUserMenuHandler 得到用户的彩蛋成就列表
@@ -68,5 +68,5 @@ func ListUserMenuHandler(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, ctl.ListResp(resp, total))
+	ctx.JSON(http.StatusOK, controller.ListResp(resp, total))
 }

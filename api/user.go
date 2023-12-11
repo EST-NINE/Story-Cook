@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/service"
 	"SparkForge/types"
@@ -27,7 +27,7 @@ func UserRegisterHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, ctl.SuccessResp())
+	ctx.JSON(http.StatusOK, controller.SuccessResp())
 }
 
 // UserLoginHandler 用户登录
@@ -65,11 +65,11 @@ func UserUpdatePwdHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, ctl.SuccessResp())
+	ctx.JSON(http.StatusOK, controller.SuccessResp())
 }
 
-// UserUpdateInfoHandler 用户修改信息
-func UserUpdateInfoHandler(ctx *gin.Context) {
+// UpdateUserInfoHandler 用户修改信息
+func UpdateUserInfoHandler(ctx *gin.Context) {
 	var req types.UseUpdateInfoReq
 	if err := ctx.ShouldBind(&req); err != nil {
 		util.LogrusObj.Infoln(err)
@@ -84,7 +84,7 @@ func UserUpdateInfoHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, ctl.SuccessResp())
+	ctx.JSON(http.StatusOK, controller.SuccessResp())
 }
 
 // GetUserInfoHandler 用户信息
@@ -96,5 +96,5 @@ func GetUserInfoHandler(ctx *gin.Context) {
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 	}
-	ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(resp))
+	ctx.JSON(http.StatusOK, controller.SuccessWithDataResp(resp))
 }

@@ -15,7 +15,7 @@ import (
 	"SparkForge/pkg/util"
 )
 
-var db *gorm.DB
+var ormDB *gorm.DB
 
 func InitMysql() {
 	conn := strings.Join([]string{config.DbUser, ":", config.DbPassWord, "@tcp(", config.DbHost, ":", config.DbPort, ")/", config.DbName, "?charset=utf8mb4&parseTime=true&loc=Local"}, "")
@@ -45,9 +45,11 @@ func InitMysql() {
 	sqlDB.SetMaxIdleConns(20)                  // 设置数据库连接池中空闲连接的最大数量
 	sqlDB.SetMaxOpenConns(100)                 // 设置数据库连接池中最大连接数
 	sqlDB.SetConnMaxLifetime(time.Second * 30) // 设置数据库连接的最大生命周期
+	ormDB = db
 	migration()
 }
 
 func NewDBClient(c context.Context) *gorm.DB {
+	db := ormDB
 	return db.WithContext(c)
 }

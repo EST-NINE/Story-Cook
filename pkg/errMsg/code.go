@@ -1,4 +1,4 @@
-package e
+package errMsg
 
 const (
 	SUCCESS       = 200 // 操作成功

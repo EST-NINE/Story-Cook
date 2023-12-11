@@ -1,4 +1,4 @@
-package e
+package errMsg
 
 var MsgFlags = map[int]string{
 	SUCCESS:       "操作成功",

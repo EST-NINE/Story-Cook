@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"SparkForge/pkg/ctl"
+	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/service"
 	"SparkForge/types"
@@ -27,7 +27,7 @@ func CreateStoryHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, ctl.SuccessResp())
+	ctx.JSON(http.StatusOK, controller.SuccessResp())
 }
 
 // ListStoryHandler 得到对应用户的故事列表
@@ -46,7 +46,7 @@ func ListStoryHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, ctl.ListResp(resp, total))
+	ctx.JSON(http.StatusOK, controller.ListResp(resp, total))
 }
 
 // DeleteStoryHandler 删除故事
@@ -65,7 +65,7 @@ func DeleteStoryHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, ctl.SuccessResp())
+	ctx.JSON(http.StatusOK, controller.SuccessResp())
 }
 
 // UpdateStoryHandler 更新故事
@@ -84,7 +84,7 @@ func UpdateStoryHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, ctl.SuccessWithDataResp(resp))
+	ctx.JSON(http.StatusOK, controller.SuccessWithDataResp(resp))
 }
 
 // SelectStoryHandler 根据mood分类故事
@@ -103,5 +103,5 @@ func SelectStoryHandler(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
 	}
-	ctx.JSON(http.StatusOK, ctl.ListResp(resp, total))
+	ctx.JSON(http.StatusOK, controller.ListResp(resp, total))
 }

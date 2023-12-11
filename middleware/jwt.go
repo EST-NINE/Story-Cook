@@ -7,38 +7,36 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"SparkForge/pkg/ctl"
-	"SparkForge/pkg/e"
+	"SparkForge/pkg/controller"
+	"SparkForge/pkg/errMsg"
 	"SparkForge/pkg/util"
 )
 
 // JWT token验证中间件
-func JWT() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		var code int
-		code = e.SUCCESS
-		token := c.GetHeader("Authorization")
-		if token == "" {
-			code = e.ErrorAuthCheckTokenFail
-			c.JSON(http.StatusBadRequest, ctl.ErrorResp(errors.New("empty"), e.GetMsg(code), code))
-			c.Abort()
-			return
-		}
-
-		claims, err := util.ParseToken(token)
-		if err != nil {
-			code = e.ErrorAuthCheckTokenFail
-		} else if time.Now().Unix() > claims.ExpiresAt {
-			code = e.ErrorAuthCheckTokenTimeout
-		}
-
-		if code != e.SUCCESS {
-			c.JSON(e.InvalidParams, ctl.ErrorResp(err, e.GetMsg(code), code))
-			c.Abort()
-			return
-		}
-
-		c.Request = c.Request.WithContext(ctl.NewContext(c.Request.Context(), &ctl.UserInfo{Id: claims.Id}))
-		c.Next()
+func JWT(ctx *gin.Context) {
+	var code int
+	code = errMsg.SUCCESS
+	token := ctx.GetHeader("Authorization")
+	if token == "" {
+		code = errMsg.ErrorAuthCheckTokenFail
+		ctx.JSON(http.StatusBadRequest, controller.ErrorResp(errors.New("empty"), errMsg.GetMsg(code), code))
+		ctx.Abort()
+		return
 	}
+
+	claims, err := util.ParseToken(token)
+	if err != nil {
+		code = errMsg.ErrorAuthCheckTokenFail
+	} else if time.Now().Unix() > claims.ExpiresAt {
+		code = errMsg.ErrorAuthCheckTokenTimeout
+	}
+
+	if code != errMsg.SUCCESS {
+		ctx.JSON(errMsg.InvalidParams, controller.ErrorResp(err, errMsg.GetMsg(code), code))
+		ctx.Abort()
+		return
+	}
+
+	ctx.Request = ctx.Request.WithContext(controller.NewContext(ctx.Request.Context(), &controller.UserInfo{Id: claims.Id}))
+	ctx.Next()
 }

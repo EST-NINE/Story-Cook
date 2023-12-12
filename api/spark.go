@@ -1,10 +1,12 @@
 package api
 
 import (
+	"SparkForge/db/dao"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -38,6 +40,23 @@ var hostUrl = "wss://spark-api.xf-yun.com/v3.1/chat"
 func GenerateStoryHandler(ctx *gin.Context) {
 	var req types.GenerateStoryReq
 	if err := ctx.ShouldBind(&req); err != nil {
+		util.LogrusObj.Infoln(err)
+		ctx.JSON(http.StatusOK, ErrorResponse(err))
+		return
+	}
+
+	userInfo, err := controller.GetUserInfo(ctx.Request.Context())
+	user, err := dao.NewUserDao(ctx).FindUserByUserId(userInfo.Id)
+
+	count := user.GetCount()
+	if count >= 5 {
+		err = errors.New("今日份次数已用完,请回味一下今日份故事吧")
+		ctx.JSON(http.StatusOK, ErrorResponse(err))
+		return
+	}
+
+	err = user.AddCount()
+	if err != nil {
 		util.LogrusObj.Infoln(err)
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return

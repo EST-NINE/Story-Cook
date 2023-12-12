@@ -29,7 +29,7 @@ func (s *StorySrv) CreateStory(c context.Context, req *types.CreateStoryReq) err
 	}
 
 	count := user.GetCount()
-	if count >= 2 {
+	if count >= 5 {
 		err = errors.New("今日份次数已用完,请回味一下今日份故事吧")
 		return err
 	}

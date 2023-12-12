@@ -1,10 +1,12 @@
 package cache
 
 import (
+	"strconv"
+
+	"github.com/go-redis/redis"
+
 	"SparkForge/config"
 	"SparkForge/pkg/util"
-	"github.com/go-redis/redis"
-	"strconv"
 )
 
 var RedisClient *redis.Client
@@ -26,4 +28,9 @@ func InitRedis() {
 		panic(err)
 	}
 	RedisClient = client
+}
+
+// ResetCount 重置次数
+func ResetCount() error {
+	return RedisClient.FlushDB().Err()
 }

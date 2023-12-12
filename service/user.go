@@ -73,6 +73,7 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp type
 		ID:       user.ID,
 		UserName: user.UserName,
 		Kitchen:  user.Kitchen,
+		Count:    user.GetCount(),
 		CreateAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
 	}
 	return types.TokenDataResp{
@@ -184,6 +185,7 @@ func (s *UserSrv) UserInfo(c context.Context) (resp *types.UserResp, err error) 
 		ID:       user.ID,
 		UserName: user.UserName,
 		Kitchen:  user.Kitchen,
+		Count:    user.GetCount(),
 		CreateAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
 	}, nil
 }

@@ -28,6 +28,12 @@ func (s *StorySrv) CreateStory(c context.Context, req *types.CreateStoryReq) err
 		return err
 	}
 
+	count := user.GetCount()
+	if count >= 2 {
+		err = errors.New("今日份次数已用完,请回味一下今日份故事吧")
+		return err
+	}
+
 	storyDao := dao.NewStoryDao(c)
 	_, err = storyDao.FindStoryByTitleAndUserId(userInfo.Id, req.Title)
 	if err == nil {
@@ -44,6 +50,12 @@ func (s *StorySrv) CreateStory(c context.Context, req *types.CreateStoryReq) err
 	}
 
 	err = storyDao.CreateStory(&story)
+	if err != nil {
+		util.LogrusObj.Infoln(err)
+		return err
+	}
+
+	err = user.AddCount()
 	if err != nil {
 		util.LogrusObj.Infoln(err)
 		return err

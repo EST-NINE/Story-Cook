@@ -25,4 +25,5 @@ type UserResp struct {
 	UserName string `json:"user_name"` // 用户名
 	Kitchen  string `json:"kitchen"`   // 厨房名
 	CreateAt string `json:"create_at"` // 创建
+	Count    uint64 `json:"count"`     // 当天剩余合成次数
 }

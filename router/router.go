@@ -12,7 +12,7 @@ import (
 func NewRouter() *gin.Engine {
 	r := gin.Default()
 
-	r.Use(middleware.CORS)
+	r.Use(middleware.CORS())
 	v1 := r.Group("api/v1")
 	{
 		v1.GET("ping", func(ctx *gin.Context) {
@@ -24,7 +24,7 @@ func NewRouter() *gin.Engine {
 		v1.POST("user/login", api.UserLoginHandler)
 
 		authed := v1.Group("/") // 登录保护
-		authed.Use(middleware.JWT)
+		authed.Use(middleware.JWT())
 		{
 			// 用户操作
 			authed.GET("user/isLogin", func(ctx *gin.Context) {

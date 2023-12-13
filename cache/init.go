@@ -29,8 +29,3 @@ func InitRedis() {
 	}
 	RedisClient = client
 }
-
-// ResetCount 重置次数
-func ResetCount() error {
-	return RedisClient.FlushDB().Err()
-}

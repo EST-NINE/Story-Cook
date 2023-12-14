@@ -132,7 +132,7 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) erro
 }
 
 // UpdateInfo 用户更改信息
-func (s *UserSrv) UpdateInfo(c context.Context, req *types.UseUpdateInfoReq) error {
+func (s *UserSrv) UpdateInfo(c context.Context, req *types.UserUpdateInfoReq) error {
 	// 找到用户
 	userInfo, err := controller.GetUserInfo(c)
 	if err != nil {

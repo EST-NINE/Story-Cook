@@ -1,0 +1,418 @@
+basePath: /api/v1
+definitions:
+  types.CreateStoryReq:
+    properties:
+      content:
+        example: content1
+        type: string
+      keywords:
+        example: 室友+电脑
+        type: string
+      mood:
+        example: 开心
+        type: string
+      title:
+        example: story1
+        type: string
+    required:
+    - content
+    - keywords
+    - mood
+    - title
+    type: object
+  types.CreateUserMenuReq:
+    properties:
+      content:
+        example: 彩蛋:焦虑的夜晚
+        type: string
+      keywords:
+        example: 大学生+未完成的作业
+        type: string
+    required:
+    - content
+    - keywords
+    type: object
+  types.DeleteStoryReq:
+    properties:
+      title:
+        example: story1
+        type: string
+    required:
+    - title
+    type: object
+  types.GenerateStoryReq:
+    properties:
+      keywords:
+        example: 室友+电脑
+        type: string
+      mood:
+        example: 开心
+        type: string
+    required:
+    - mood
+    type: object
+  types.ListStoryReq:
+    properties:
+      limit:
+        example: 10
+        type: integer
+      page:
+        example: 1
+        type: integer
+    type: object
+  types.ListUserMenuReq:
+    properties:
+      limit:
+        example: 10
+        type: integer
+      page:
+        example: 1
+        type: integer
+    type: object
+  types.SelectMenuReq:
+    properties:
+      keywords:
+        example: 大学生+未完成的作业
+        type: string
+    required:
+    - keywords
+    type: object
+  types.SelectStoryReq:
+    properties:
+      mood:
+        example: 开心
+        type: string
+    required:
+    - mood
+    type: object
+  types.UpdateStoryReq:
+    properties:
+      title:
+        example: story1
+        type: string
+      update_content:
+        example: content2
+        type: string
+      update_title:
+        example: story2
+        type: string
+    required:
+    - title
+    type: object
+  types.UserServiceReq:
+    properties:
+      password:
+        example: "12345678"
+        type: string
+      user_name:
+        example: john
+        type: string
+    required:
+    - password
+    - user_name
+    type: object
+  types.UserUpdateInfoReq:
+    properties:
+      kitchen:
+        example: John Doe的厨房
+        type: string
+      update_name:
+        example: John Doe
+        type: string
+    type: object
+  types.UserUpdatePwdReq:
+    properties:
+      originPwd:
+        example: "12345678"
+        type: string
+      updatePwd:
+        example: "123456789"
+        type: string
+    required:
+    - originPwd
+    - updatePwd
+    type: object
+host: localhost:8082
+info:
+  contact: {}
+  description: Story-Cook API文档
+  title: Story-Cook
+  version: "1.0"
+paths:
+  /story:
+    delete:
+      description: 删除历史记录
+      parameters:
+      - description: 删除历史记录请求体
+        in: body
+        name: story
+        required: true
+        schema:
+          $ref: '#/definitions/types.DeleteStoryReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 删除历史记录
+      tags:
+      - 历史记录操作
+    put:
+      description: 更新历史记录
+      parameters:
+      - description: 更新历史记录请求体
+        in: body
+        name: story
+        required: true
+        schema:
+          $ref: '#/definitions/types.UpdateStoryReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 更新历史记录
+      tags:
+      - 历史记录操作
+  /story/generate:
+    post:
+      description: 生成故事
+      parameters:
+      - description: 生成故事请求体
+        in: body
+        name: story
+        required: true
+        schema:
+          $ref: '#/definitions/types.GenerateStoryReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 生成故事
+      tags:
+      - 历史记录操作
+  /story/list:
+    post:
+      description: 得到用户的故事列表
+      parameters:
+      - description: 故事列表请求体
+        in: body
+        name: story
+        required: true
+        schema:
+          $ref: '#/definitions/types.ListStoryReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 得到用户的故事列表
+      tags:
+      - 历史记录操作
+  /story/save:
+    post:
+      description: 创建历史记录
+      parameters:
+      - description: 创建历史记录请求体
+        in: body
+        name: story
+        required: true
+        schema:
+          $ref: '#/definitions/types.CreateStoryReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 创建历史记录
+      tags:
+      - 历史记录操作
+  /story/select:
+    post:
+      description: 根据mood分类历史记录
+      parameters:
+      - description: 分类历史记录请求体
+        in: body
+        name: story
+        required: true
+        schema:
+          $ref: '#/definitions/types.SelectStoryReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 根据mood分类历史记录
+      tags:
+      - 历史记录操作
+  /user/information:
+    get:
+      description: 得到用户信息
+      parameters:
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 得到用户信息
+      tags:
+      - 登录状态下用户操作
+    put:
+      description: 用户修改信息
+      parameters:
+      - description: 用户修改信息请求体
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserUpdateInfoReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 用户修改信息
+      tags:
+      - 登录状态下用户操作
+  /user/login:
+    post:
+      description: 用户进行登录操作
+      parameters:
+      - description: 用户信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserServiceReq'
+      produces:
+      - application/json
+      responses: {}
+      summary: 用户登录
+      tags:
+      - 用户操作
+  /user/password:
+    put:
+      description: 用户修改密码
+      parameters:
+      - description: 用户修改密码请求体
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserUpdatePwdReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 用户修改密码
+      tags:
+      - 登录状态下用户操作
+  /user/register:
+    post:
+      description: 注册一个新用户
+      parameters:
+      - description: 用户注册请求体
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserServiceReq'
+      produces:
+      - application/json
+      responses: {}
+      summary: 用户注册
+      tags:
+      - 用户操作
+  /userMenu/create:
+    post:
+      description: 添加彩蛋成就
+      parameters:
+      - description: 添加彩蛋成就请求体
+        in: body
+        name: userMenu
+        required: true
+        schema:
+          $ref: '#/definitions/types.CreateUserMenuReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 添加彩蛋成就
+      tags:
+      - 彩蛋操作
+  /userMenu/isMenu:
+    post:
+      description: 判断是否触发彩蛋成就
+      parameters:
+      - description: 判断彩蛋成就请求体
+        in: body
+        name: userMenu
+        required: true
+        schema:
+          $ref: '#/definitions/types.SelectMenuReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 判断是否触发彩蛋成就
+      tags:
+      - 彩蛋操作
+  /userMenu/list:
+    post:
+      description: 得到彩蛋成就列表
+      parameters:
+      - description: 彩蛋成就列表请求体
+        in: body
+        name: userMenu
+        required: true
+        schema:
+          $ref: '#/definitions/types.ListUserMenuReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 得到彩蛋成就列表
+      tags:
+      - 彩蛋操作
+swagger: "2.0"

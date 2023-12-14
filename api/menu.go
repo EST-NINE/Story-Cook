@@ -12,6 +12,14 @@ import (
 )
 
 // SelectMenuHandler 判断是否触发彩蛋成就
+//
+//		@Summary		判断是否触发彩蛋成就
+//		@Description	判断是否触发彩蛋成就
+//		@Tags			彩蛋操作
+//		@Produce		json
+//		@Param			userMenu	body		types.SelectMenuReq	true	"判断彩蛋成就请求体"
+//	    @Param Authorization header string true "身份验证令牌"
+//		@Router			/userMenu/isMenu [post]
 func SelectMenuHandler(ctx *gin.Context) {
 	var req types.SelectMenuReq
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -31,7 +39,15 @@ func SelectMenuHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, controller.SuccessWithDataResp(resp))
 }
 
-// CreateUserMenuHandler 给用户添加彩蛋成就
+// CreateUserMenuHandler 添加彩蛋成就
+//
+//		@Summary		添加彩蛋成就
+//		@Description	添加彩蛋成就
+//		@Tags			彩蛋操作
+//		@Produce		json
+//		@Param			userMenu	body		types.CreateUserMenuReq	true	"添加彩蛋成就请求体"
+//	    @Param Authorization header string true "身份验证令牌"
+//		@Router			/userMenu/create [post]
 func CreateUserMenuHandler(ctx *gin.Context) {
 	var req types.CreateUserMenuReq
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -51,7 +67,15 @@ func CreateUserMenuHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, controller.SuccessResp())
 }
 
-// ListUserMenuHandler 得到用户的彩蛋成就列表
+// ListUserMenuHandler 得到彩蛋成就列表
+//
+//		@Summary		得到彩蛋成就列表
+//		@Description	得到彩蛋成就列表
+//		@Tags			彩蛋操作
+//		@Produce		json
+//		@Param			userMenu	body		types.ListUserMenuReq	true	"彩蛋成就列表请求体"
+//	    @Param Authorization header string true "身份验证令牌"
+//		@Router			/userMenu/list [post]
 func ListUserMenuHandler(ctx *gin.Context) {
 	var req types.ListUserMenuReq
 	if err := ctx.ShouldBind(&req); err != nil {

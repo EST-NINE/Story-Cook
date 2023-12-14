@@ -111,6 +111,12 @@ func (s *StorySrv) UpdateStory(c context.Context, req *types.UpdateStoryReq) (re
 	}
 
 	storyDao := dao.NewStoryDao(c)
+	_, err = storyDao.FindStoryByTitleAndUserId(userInfo.Id, req.UpdateTitle)
+	if err == nil {
+		err = errors.New("已经有这个标题的历史记录了哦")
+		return
+	}
+
 	err = storyDao.UpdateStory(userInfo.Id, req)
 	if err != nil {
 		util.LogrusObj.Infoln(err)

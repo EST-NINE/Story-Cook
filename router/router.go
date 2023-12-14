@@ -1,12 +1,14 @@
 package router
 
 import (
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-
 	"SparkForge/api"
+	_ "SparkForge/docs" // 导入自动生成的docs文档
 	"SparkForge/middleware"
+	"github.com/gin-gonic/gin"
 )
 
 func NewRouter() *gin.Engine {
@@ -49,5 +51,6 @@ func NewRouter() *gin.Engine {
 		}
 	}
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return r
 }

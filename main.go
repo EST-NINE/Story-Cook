@@ -1,16 +1,24 @@
 package main
 
 import (
+	"fmt"
+	"log"
+
+	"github.com/robfig/cron"
+
 	"SparkForge/cache"
 	"SparkForge/config"
 	"SparkForge/db/dao"
+	_ "SparkForge/docs" // 导入自动生成的docs文档
 	"SparkForge/pkg/util"
 	"SparkForge/router"
-	"fmt"
-	"github.com/robfig/cron"
-	"log"
 )
 
+// @title		Story-Cook
+// @version		1.0
+// @description	Story-Cook API文档
+// @host		localhost:8082
+// @BasePath    /api/v1
 func main() {
 	loading()
 	r := router.NewRouter()

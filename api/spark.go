@@ -38,8 +38,8 @@ var hostUrl = "wss://spark-api.xf-yun.com/v3.1/chat"
 
 // GenerateStoryHandler 生成故事(不保存到历史记录)
 //
-//	@Summary		生成故事
-//	@Description	生成故事
+//	@Summary		生成故事(不保存到历史记录)
+//	@Description	生成故事(不保存到历史记录)
 //	@Tags			历史记录操作
 //	@Produce		json
 //	@Param			story	body		types.GenerateStoryReq	true	"生成故事请求体"

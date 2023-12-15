@@ -44,47 +44,18 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {}
-            },
-            "delete": {
-                "description": "删除历史记录",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "历史记录操作"
-                ],
-                "summary": "删除历史记录",
-                "parameters": [
-                    {
-                        "description": "删除历史记录请求体",
-                        "name": "story",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/types.DeleteStoryReq"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "身份验证令牌",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {}
             }
         },
         "/story/generate": {
             "post": {
-                "description": "生成故事",
+                "description": "生成故事(不保存到历史记录)",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "历史记录操作"
                 ],
-                "summary": "生成故事",
+                "summary": "生成故事(不保存到历史记录)",
                 "parameters": [
                     {
                         "description": "生成故事请求体",
@@ -187,6 +158,35 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/types.SelectStoryReq"
                         }
+                    },
+                    {
+                        "type": "string",
+                        "description": "身份验证令牌",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/story/{title}": {
+            "delete": {
+                "description": "删除历史记录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "历史记录操作"
+                ],
+                "summary": "删除历史记录",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "历史记录标题",
+                        "name": "title",
+                        "in": "path",
+                        "required": true
                     },
                     {
                         "type": "string",
@@ -465,18 +465,6 @@ const docTemplate = `{
                 "keywords": {
                     "type": "string",
                     "example": "大学生+未完成的作业"
-                }
-            }
-        },
-        "types.DeleteStoryReq": {
-            "type": "object",
-            "required": [
-                "title"
-            ],
-            "properties": {
-                "title": {
-                    "type": "string",
-                    "example": "story1"
                 }
             }
         },

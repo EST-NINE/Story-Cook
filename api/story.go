@@ -66,20 +66,17 @@ func ListStoryHandler(ctx *gin.Context) {
 }
 
 // DeleteStoryHandler 删除历史记录
-//
-//	@Summary		删除历史记录
-//	@Description	删除历史记录
-//	@Tags			历史记录操作
-//	@Produce		json
-//	@Param			story	body		types.DeleteStoryReq	true	"删除历史记录请求体"
-//	@Param Authorization header string true "身份验证令牌"
-//	@Router			/story [delete]
+// @Summary 删除历史记录
+// @Description 删除历史记录
+// @Tags 历史记录操作
+// @Produce json
+// @Param title path string true "历史记录标题"
+// @Param Authorization header string true "身份验证令牌"
+// @Router /story/{title} [delete]
 func DeleteStoryHandler(ctx *gin.Context) {
-	var req types.DeleteStoryReq
-	if err := ctx.ShouldBind(&req); err != nil {
-		util.LogrusObj.Infoln(err)
-		ctx.JSON(http.StatusBadRequest, ErrorResponse(err))
-		return
+	title := ctx.Param("title")
+	req := types.DeleteStoryReq{
+		Title: title,
 	}
 
 	// 处理响应

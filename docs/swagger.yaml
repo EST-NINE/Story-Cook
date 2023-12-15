@@ -32,14 +32,6 @@ definitions:
     - content
     - keywords
     type: object
-  types.DeleteStoryReq:
-    properties:
-      title:
-        example: story1
-        type: string
-    required:
-    - title
-    type: object
   types.GenerateStoryReq:
     properties:
       keywords:
@@ -140,26 +132,6 @@ info:
   version: "1.0"
 paths:
   /story:
-    delete:
-      description: 删除历史记录
-      parameters:
-      - description: 删除历史记录请求体
-        in: body
-        name: story
-        required: true
-        schema:
-          $ref: '#/definitions/types.DeleteStoryReq'
-      - description: 身份验证令牌
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses: {}
-      summary: 删除历史记录
-      tags:
-      - 历史记录操作
     put:
       description: 更新历史记录
       parameters:
@@ -180,9 +152,29 @@ paths:
       summary: 更新历史记录
       tags:
       - 历史记录操作
+  /story/{title}:
+    delete:
+      description: 删除历史记录
+      parameters:
+      - description: 历史记录标题
+        in: path
+        name: title
+        required: true
+        type: string
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 删除历史记录
+      tags:
+      - 历史记录操作
   /story/generate:
     post:
-      description: 生成故事
+      description: 生成故事(不保存到历史记录)
       parameters:
       - description: 生成故事请求体
         in: body
@@ -198,7 +190,7 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: 生成故事
+      summary: 生成故事(不保存到历史记录)
       tags:
       - 历史记录操作
   /story/list:

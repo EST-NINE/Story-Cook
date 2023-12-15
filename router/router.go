@@ -41,7 +41,7 @@ func NewRouter() *gin.Engine {
 			authed.POST("story/save", api.CreateStoryHandler)
 			authed.POST("story/list", api.ListStoryHandler)
 			authed.POST("story/select", api.SelectStoryHandler)
-			authed.DELETE("story", api.DeleteStoryHandler)
+			authed.DELETE("story/:title", api.DeleteStoryHandler)
 			authed.PUT("story", api.UpdateStoryHandler)
 
 			// 彩蛋操作

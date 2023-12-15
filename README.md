@@ -45,21 +45,26 @@ go run main.go
 | logrus     | v1.9.3  |
 | go-swagger | v1.16.2 |
 
+## 项目结构
 ```
-├─api           # 用于定义接口函数
-├─cache         # redis操作
-├─config        # 配置文件
-├─db            # mysql操作
-├─docs          # swagger接口文档
-├─logs          # 日志打印
-├─middleware    # 中间件
-├─pkg            
-│  ├─controller # 处理响应
-│  ├─errMsg     # 封装错误码
-│  └─util       # 工具函数
-├─router        # 路由逻辑处理
-├─service       # 接口函数的实现
-└─types         # 将数据序列化为 json 的函数，便于返回给前端
+├─api                    # 用于定义接口函数
+├─config                 # 配置文件
+├─docs                   # swagger接口文档
+├─logs                   # 日志打印
+├─middleware             # 中间件
+├─pkg
+│  ├─controller          # 处理响应
+│  ├─errMsg              # 封装错误码
+│  └─util                # 工具函数
+├─repository
+│  ├─cache               # 缓存操作
+│  └─db
+│      ├─dao             # 数据库访问对象
+│      └─model           # 数据库模型
+├─router                 # 路由逻辑处理
+├─service                # 接口函数的实现
+└─types                  # 将数据序列化为 json 的函数，便于返回给前端
+
 ```
 
 ## 【重要】配置项目

@@ -1,8 +1,8 @@
 package model
 
 import (
-	"SparkForge/cache"
 	"SparkForge/pkg/util"
+	"SparkForge/repository/cache"
 	"golang.org/x/crypto/bcrypt"
 	"strconv"
 

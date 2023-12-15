@@ -1,14 +1,14 @@
 package main
 
 import (
+	"SparkForge/repository/cache"
+	"SparkForge/repository/db/dao"
 	"fmt"
 	"log"
 
 	"github.com/robfig/cron"
 
-	"SparkForge/cache"
 	"SparkForge/config"
-	"SparkForge/db/dao"
 	_ "SparkForge/docs" // 导入自动生成的docs文档
 	"SparkForge/pkg/util"
 	"SparkForge/router"

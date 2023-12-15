@@ -1,7 +1,7 @@
 package api
 
 import (
-	"SparkForge/db/dao"
+	"SparkForge/repository/db/dao"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"

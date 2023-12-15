@@ -1,14 +1,14 @@
 package service
 
 import (
+	"SparkForge/repository/db/dao"
+	"SparkForge/repository/db/model"
 	"context"
 	"errors"
 	"fmt"
 
 	"gorm.io/gorm"
 
-	"SparkForge/db/dao"
-	"SparkForge/db/model"
 	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/types"

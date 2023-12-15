@@ -1,7 +1,7 @@
 package dao
 
 import (
-	"SparkForge/db/model"
+	"SparkForge/repository/db/model"
 )
 
 // 执行数据迁移

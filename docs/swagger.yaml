@@ -234,6 +234,48 @@ paths:
       summary: 得到用户的故事列表
       tags:
       - 历史记录操作
+  /story/listByMood:
+    post:
+      description: 根据mood分类历史记录
+      parameters:
+      - description: 分类历史记录请求体
+        in: body
+        name: story
+        required: true
+        schema:
+          $ref: '#/definitions/types.ListStoryByMoodReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 根据mood分类历史记录
+      tags:
+      - 历史记录操作
+  /story/listByTime:
+    post:
+      description: 根据time分类历史记录
+      parameters:
+      - description: 分类历史记录请求体
+        in: body
+        name: story
+        required: true
+        schema:
+          $ref: '#/definitions/types.ListStoryByTimeReq'
+      - description: 身份验证令牌
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 根据time分类历史记录
+      tags:
+      - 历史记录操作
   /story/save:
     post:
       description: 创建历史记录
@@ -253,27 +295,6 @@ paths:
       - application/json
       responses: {}
       summary: 创建历史记录
-      tags:
-      - 历史记录操作
-  /story/select:
-    post:
-      description: 根据time分类历史记录
-      parameters:
-      - description: 分类历史记录请求体
-        in: body
-        name: story
-        required: true
-        schema:
-          $ref: '#/definitions/types.ListStoryByTimeReq'
-      - description: 身份验证令牌
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses: {}
-      summary: 根据time分类历史记录
       tags:
       - 历史记录操作
   /user/information:

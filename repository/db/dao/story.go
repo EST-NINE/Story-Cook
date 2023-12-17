@@ -80,6 +80,7 @@ func (dao *StoryDao) UpdateStory(uid uint, req *types.UpdateStoryReq) error {
 	return dao.Save(story).Error
 }
 
+// ListStoryByMood 根据mood分类查找story
 func (dao *StoryDao) ListStoryByMood(uid uint, req *types.ListStoryByMoodReq) (stories []model.Story, total int64, err error) {
 	err = dao.DB.Model(&model.Story{}).Preload("User").Where("uid = ? AND mood = ?", uid, req.Mood).
 		Count(&total).
@@ -91,6 +92,7 @@ func (dao *StoryDao) ListStoryByMood(uid uint, req *types.ListStoryByMoodReq) (s
 	return
 }
 
+// ListStoryByTime 根据time分类查找story
 func (dao *StoryDao) ListStoryByTime(uid uint, req *types.ListStoryByTimeReq) (stories []model.Story, total int64, err error) {
 	// 获取当前时间
 	currentTime := time.Now()

@@ -124,7 +124,7 @@ func UpdateStoryHandler(ctx *gin.Context) {
 //	@Produce		json
 //	@Param			story	body		types.ListStoryByMoodReq	true	"分类历史记录请求体"
 //	@Param Authorization header string true "身份验证令牌"
-//	@Router			/story/select [post]
+//	@Router			/story/listByMood [post]
 func ListStoryByMoodHandler(ctx *gin.Context) {
 	var req types.ListStoryByMoodReq
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -151,7 +151,7 @@ func ListStoryByMoodHandler(ctx *gin.Context) {
 //	@Produce		json
 //	@Param			story	body		types.ListStoryByTimeReq	true	"分类历史记录请求体"
 //	@Param Authorization header string true "身份验证令牌"
-//	@Router			/story/select [post]
+//	@Router			/story/listByTime [post]
 func ListStoryByTimeHandler(ctx *gin.Context) {
 	var req types.ListStoryByTimeReq
 	if err := ctx.ShouldBind(&req); err != nil {

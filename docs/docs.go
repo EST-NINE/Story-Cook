@@ -108,6 +108,68 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/story/listByMood": {
+            "post": {
+                "description": "根据mood分类历史记录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "历史记录操作"
+                ],
+                "summary": "根据mood分类历史记录",
+                "parameters": [
+                    {
+                        "description": "分类历史记录请求体",
+                        "name": "story",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.ListStoryByMoodReq"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "身份验证令牌",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/story/listByTime": {
+            "post": {
+                "description": "根据time分类历史记录",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "历史记录操作"
+                ],
+                "summary": "根据time分类历史记录",
+                "parameters": [
+                    {
+                        "description": "分类历史记录请求体",
+                        "name": "story",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/types.ListStoryByTimeReq"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "身份验证令牌",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/story/save": {
             "post": {
                 "description": "创建历史记录",
@@ -126,37 +188,6 @@ const docTemplate = `{
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/types.CreateStoryReq"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "身份验证令牌",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/story/select": {
-            "post": {
-                "description": "根据time分类历史记录",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "历史记录操作"
-                ],
-                "summary": "根据time分类历史记录",
-                "parameters": [
-                    {
-                        "description": "分类历史记录请求体",
-                        "name": "story",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/types.ListStoryByTimeReq"
                         }
                     },
                     {

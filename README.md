@@ -64,7 +64,6 @@ go run main.go
 ├─router                 # 路由逻辑处理
 ├─service                # 接口函数的实现
 └─types                  # 将数据序列化为 json 的函数，便于返回给前端
-
 ```
 
 ## 【重要】配置项目

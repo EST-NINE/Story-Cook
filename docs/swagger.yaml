@@ -43,6 +43,34 @@ definitions:
     required:
     - mood
     type: object
+  types.ListStoryByMoodReq:
+    properties:
+      limit:
+        example: 10
+        type: integer
+      mood:
+        example: 开心
+        type: string
+      page:
+        example: 1
+        type: integer
+    required:
+    - mood
+    type: object
+  types.ListStoryByTimeReq:
+    properties:
+      limit:
+        example: 10
+        type: integer
+      page:
+        example: 1
+        type: integer
+      time_flag:
+        example: daily
+        type: string
+    required:
+    - time_flag
+    type: object
   types.ListStoryReq:
     properties:
       limit:
@@ -68,14 +96,6 @@ definitions:
         type: string
     required:
     - keywords
-    type: object
-  types.SelectStoryReq:
-    properties:
-      mood:
-        example: 开心
-        type: string
-    required:
-    - mood
     type: object
   types.UpdateStoryReq:
     properties:
@@ -237,14 +257,14 @@ paths:
       - 历史记录操作
   /story/select:
     post:
-      description: 根据mood分类历史记录
+      description: 根据time分类历史记录
       parameters:
       - description: 分类历史记录请求体
         in: body
         name: story
         required: true
         schema:
-          $ref: '#/definitions/types.SelectStoryReq'
+          $ref: '#/definitions/types.ListStoryByTimeReq'
       - description: 身份验证令牌
         in: header
         name: Authorization
@@ -253,7 +273,7 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: 根据mood分类历史记录
+      summary: 根据time分类历史记录
       tags:
       - 历史记录操作
   /user/information:

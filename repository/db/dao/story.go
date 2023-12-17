@@ -3,8 +3,9 @@ package dao
 import (
 	"SparkForge/repository/db/model"
 	"context"
-
+	"errors"
 	"gorm.io/gorm"
+	"time"
 
 	"SparkForge/types"
 )
@@ -79,10 +80,43 @@ func (dao *StoryDao) UpdateStory(uid uint, req *types.UpdateStoryReq) error {
 	return dao.Save(story).Error
 }
 
-// SelectStory 根据mood分类故事
-func (dao *StoryDao) SelectStory(uid uint, mood string) (stories []model.Story, total int64, err error) {
-	err = dao.DB.Model(&model.Story{}).Preload("User").Where("uid = ? AND mood = ?", uid, mood).
+func (dao *StoryDao) ListStoryByMood(uid uint, req *types.ListStoryByMoodReq) (stories []model.Story, total int64, err error) {
+	err = dao.DB.Model(&model.Story{}).Preload("User").Where("uid = ? AND mood = ?", uid, req.Mood).
 		Count(&total).
+		Order("created_at DESC").
+		Offset((req.Page - 1) * req.Limit).
+		Limit(req.Limit).
+		Find(&stories).Error
+
+	return
+}
+
+func (dao *StoryDao) ListStoryByTime(uid uint, req *types.ListStoryByTimeReq) (stories []model.Story, total int64, err error) {
+	// 获取当前时间
+	currentTime := time.Now()
+	// 设置时间查询的起始时间
+	startTime := currentTime
+
+	// 根据时间标识设置不同的起始时间
+	switch req.TimeFlag {
+	case "daily":
+		startTime = currentTime.AddDate(0, 0, -1) // 前一天
+	case "weekly":
+		startTime = currentTime.AddDate(0, 0, -7) // 前一周
+	case "monthly":
+		startTime = currentTime.AddDate(0, -1, 0) // 前一个月
+	case "yearly":
+		startTime = currentTime.AddDate(-1, 0, 0) // 前一年
+	default:
+		err = errors.New("没有对应查询的时间标识哦")
+		return
+	}
+
+	err = dao.DB.Model(&model.Story{}).Preload("User").Where("uid = ? AND created_at >= ?", uid, startTime).
+		Count(&total).
+		Order("created_at DESC").
+		Offset((req.Page - 1) * req.Limit).
+		Limit(req.Limit).
 		Find(&stories).Error
 
 	return

@@ -40,7 +40,8 @@ func NewRouter() *gin.Engine {
 			authed.POST("story/generate", api.GenerateStoryHandler)
 			authed.POST("story/save", api.CreateStoryHandler)
 			authed.POST("story/list", api.ListStoryHandler)
-			authed.POST("story/select", api.SelectStoryHandler)
+			authed.POST("story/listByMood", api.ListStoryByMoodHandler)
+			authed.POST("story/listByTime", api.ListStoryByTimeHandler)
 			authed.DELETE("story/:title", api.DeleteStoryHandler)
 			authed.PUT("story", api.UpdateStoryHandler)
 

@@ -141,14 +141,14 @@ const docTemplate = `{
         },
         "/story/select": {
             "post": {
-                "description": "根据mood分类历史记录",
+                "description": "根据time分类历史记录",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "历史记录操作"
                 ],
-                "summary": "根据mood分类历史记录",
+                "summary": "根据time分类历史记录",
                 "parameters": [
                     {
                         "description": "分类历史记录请求体",
@@ -156,7 +156,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/types.SelectStoryReq"
+                            "$ref": "#/definitions/types.ListStoryByTimeReq"
                         }
                     },
                     {
@@ -484,6 +484,46 @@ const docTemplate = `{
                 }
             }
         },
+        "types.ListStoryByMoodReq": {
+            "type": "object",
+            "required": [
+                "mood"
+            ],
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "mood": {
+                    "type": "string",
+                    "example": "开心"
+                },
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "types.ListStoryByTimeReq": {
+            "type": "object",
+            "required": [
+                "time_flag"
+            ],
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "time_flag": {
+                    "type": "string",
+                    "example": "daily"
+                }
+            }
+        },
         "types.ListStoryReq": {
             "type": "object",
             "properties": {
@@ -519,18 +559,6 @@ const docTemplate = `{
                 "keywords": {
                     "type": "string",
                     "example": "大学生+未完成的作业"
-                }
-            }
-        },
-        "types.SelectStoryReq": {
-            "type": "object",
-            "required": [
-                "mood"
-            ],
-            "properties": {
-                "mood": {
-                    "type": "string",
-                    "example": "开心"
                 }
             }
         },

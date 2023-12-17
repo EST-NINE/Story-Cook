@@ -27,8 +27,16 @@ type UpdateStoryReq struct {
 	UpdateContent string `json:"update_content" example:"content2"`
 }
 
-type SelectStoryReq struct {
-	Mood string `json:"mood" binding:"required" example:"开心"`
+type ListStoryByMoodReq struct {
+	Mood  string `json:"mood" binding:"required" example:"开心"`
+	Page  int    `json:"page" example:"1"`
+	Limit int    `json:"limit" example:"10"`
+}
+
+type ListStoryByTimeReq struct {
+	TimeFlag string `json:"time_flag" binding:"required" example:"daily"`
+	Page     int    `json:"page" example:"1"`
+	Limit    int    `json:"limit" example:"10"`
 }
 
 type StoryResp struct {

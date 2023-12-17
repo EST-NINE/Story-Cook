@@ -116,17 +116,17 @@ func UpdateStoryHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, controller.SuccessWithDataResp(resp))
 }
 
-// SelectStoryHandler 根据mood分类历史记录
+// ListStoryByMoodHandler 根据mood分类历史记录
 //
 //	@Summary		根据mood分类历史记录
 //	@Description	根据mood分类历史记录
 //	@Tags			历史记录操作
 //	@Produce		json
-//	@Param			story	body		types.SelectStoryReq	true	"分类历史记录请求体"
+//	@Param			story	body		types.ListStoryByMoodReq	true	"分类历史记录请求体"
 //	@Param Authorization header string true "身份验证令牌"
 //	@Router			/story/select [post]
-func SelectStoryHandler(ctx *gin.Context) {
-	var req types.SelectStoryReq
+func ListStoryByMoodHandler(ctx *gin.Context) {
+	var req types.ListStoryByMoodReq
 	if err := ctx.ShouldBind(&req); err != nil {
 		util.LogrusObj.Infoln(err)
 		ctx.JSON(http.StatusBadRequest, ErrorResponse(err))
@@ -135,7 +135,34 @@ func SelectStoryHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	resp, total, err := storySrv.SelectStory(ctx.Request.Context(), &req)
+	resp, total, err := storySrv.ListStoryByMood(ctx.Request.Context(), &req)
+	if err != nil {
+		ctx.JSON(http.StatusOK, ErrorResponse(err))
+		return
+	}
+	ctx.JSON(http.StatusOK, controller.ListResp(resp, total))
+}
+
+// ListStoryByTimeHandler 根据time分类历史记录
+//
+//	@Summary		根据time分类历史记录
+//	@Description	根据time分类历史记录
+//	@Tags			历史记录操作
+//	@Produce		json
+//	@Param			story	body		types.ListStoryByTimeReq	true	"分类历史记录请求体"
+//	@Param Authorization header string true "身份验证令牌"
+//	@Router			/story/select [post]
+func ListStoryByTimeHandler(ctx *gin.Context) {
+	var req types.ListStoryByTimeReq
+	if err := ctx.ShouldBind(&req); err != nil {
+		util.LogrusObj.Infoln(err)
+		ctx.JSON(http.StatusBadRequest, ErrorResponse(err))
+		return
+	}
+
+	// 处理响应
+	storySrv := service.StorySrv{}
+	resp, total, err := storySrv.ListStoryByTime(ctx.Request.Context(), &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return

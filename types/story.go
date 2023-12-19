@@ -38,12 +38,3 @@ type ListStoryByTimeReq struct {
 	Page     int    `json:"page" example:"1"`
 	Limit    int    `json:"limit" example:"10"`
 }
-
-type StoryResp struct {
-	ID        uint   `json:"id"`
-	Title     string `json:"title"`
-	Mood      string `json:"mood"`
-	Keywords  string `json:"keywords"`
-	Content   string `json:"content"`
-	CreatedAt string `json:"created_at"`
-}

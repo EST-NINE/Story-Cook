@@ -18,7 +18,7 @@ import (
 	"github.com/gorilla/websocket"
 
 	"SparkForge/config"
-	"SparkForge/pkg/controller"
+	"SparkForge/pkg/response"
 	"SparkForge/pkg/util"
 	"SparkForge/types"
 )
@@ -37,14 +37,13 @@ type Message struct {
 var hostUrl = "wss://spark-api.xf-yun.com/v3.1/chat"
 
 // GenerateStoryHandler 生成故事(不保存到历史记录)
-//
-//	@Summary		生成故事(不保存到历史记录)
-//	@Description	生成故事(不保存到历史记录)
-//	@Tags			历史记录操作
-//	@Produce		json
-//	@Param			story	body		types.GenerateStoryReq	true	"生成故事请求体"
-//	@Param Authorization header string true "身份验证令牌"
-//	@Router			/story/generate [post]
+// @Summary		生成故事(不保存到历史记录)
+// @Description	生成故事(不保存到历史记录)
+// @Tags			历史记录操作
+// @Produce		json
+// @Param			story	body		types.GenerateStoryReq	true	"生成故事请求体"
+// @Param Authorization header string true "身份验证令牌"
+// @Router			/story/generate [post]
 func GenerateStoryHandler(ctx *gin.Context) {
 	var req types.GenerateStoryReq
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -53,7 +52,8 @@ func GenerateStoryHandler(ctx *gin.Context) {
 		return
 	}
 
-	userInfo, err := controller.GetUserInfo(ctx.Request.Context())
+	claims, _ := ctx.Get("claims")
+	userInfo := claims.(*util.Claims)
 	user, err := dao.NewUserDao(ctx).FindUserByUserId(userInfo.Id)
 
 	count := user.GetCount()
@@ -70,7 +70,7 @@ func GenerateStoryHandler(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, controller.SuccessWithDataResp(getStoryFromSpark(req.Keywords, req.Mood)))
+	ctx.JSON(http.StatusOK, response.SuccessWithData(getStoryFromSpark(req.Keywords, req.Mood)))
 }
 
 // getStoryFromSpark 根据关键词从星火api获取故事
@@ -86,7 +86,7 @@ func getStoryFromSpark(keywords string, mood string) string {
 		panic(readResp(resp) + err.Error())
 	}
 
-	prompt := fmt.Sprintf("请将我下面给出的几个关键词串成一个搞怪的故事，字数请限制在200个中文字符左右（注意：若不足200字请进行扩充，若超过200字请进行删减，不管关键词是什么一定要搞怪，令人忍俊不禁）关键词：%s+%s", keywords, mood)
+	prompt := fmt.Sprintf("你是一个故事生成器，请根据以下要求用非正式语言写一个200中文字符左右的脑洞大开的分成多段的故事。关键词 %s。情感基调：%s。结局：意料之外，情理之中。（注意：若故事不足200字请进行扩充，若超过200字请进行删减。故事若只有一段请将其分成多段且不提示段数）", keywords, mood)
 	// fmt.Println(prompt)
 	go func() {
 

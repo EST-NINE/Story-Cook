@@ -3,7 +3,6 @@ package main
 import (
 	"SparkForge/repository/cache"
 	"SparkForge/repository/db/dao"
-	"fmt"
 	"log"
 
 	"github.com/robfig/cron"
@@ -20,7 +19,6 @@ import (
 // @host		localhost:8082
 // @BasePath    /api/v1
 func main() {
-	loading()
 	r := router.NewRouter()
 	err := r.Run(config.HttpPort)
 	if err != nil {
@@ -28,7 +26,7 @@ func main() {
 	}
 }
 
-func loading() {
+func init() {
 	config.InitFile()
 	util.InitLog()
 	dao.InitMysql()
@@ -36,14 +34,8 @@ func loading() {
 
 	go func() {
 		c := cron.New()
-		c.AddFunc("0 0 0 * * *", func() {
-			err := cache.DeleteUserCountKeys()
-			if err != nil {
-				log.Println(err)
-			}
-		})
+		_ = c.AddFunc("0 0 0 * * *", func() { _ = cache.DeleteUserCountKeys() }) // 每天零点更新可调用api的次数
 		c.Start()
 		select {}
 	}()
-	fmt.Println("loading success!")
 }

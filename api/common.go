@@ -4,17 +4,17 @@ import (
 	"encoding/json"
 	"errors"
 
-	"SparkForge/pkg/controller"
-	"SparkForge/pkg/errMsg"
+	"SparkForge/pkg/errCode"
+	"SparkForge/pkg/response"
 )
 
 // ErrorResponse 返回错误信息
-func ErrorResponse(err error) *controller.Response {
+func ErrorResponse(err error) *response.Response {
 
 	var unmarshalTypeError *json.UnmarshalTypeError
 	if errors.As(err, &unmarshalTypeError) {
-		return controller.ErrorResp(err, "JSON类型不匹配", errMsg.InvalidParams)
+		return response.Error(err, "JSON类型不匹配", errCode.InvalidParams)
 	}
 
-	return controller.ErrorResp(err, "参数错误", errMsg.InvalidParams)
+	return response.Error(err, "参数错误", errCode.InvalidParams)
 }

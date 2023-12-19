@@ -1,15 +1,15 @@
 package service
 
 import (
+	"SparkForge/pkg/response"
 	"SparkForge/repository/db/dao"
 	"SparkForge/repository/db/model"
-	"context"
 	"errors"
 	"fmt"
+	"github.com/gin-gonic/gin"
 
 	"gorm.io/gorm"
 
-	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/types"
 )
@@ -18,8 +18,8 @@ type UserSrv struct {
 }
 
 // Register 注册用户
-func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) error {
-	userDao := dao.NewUserDao(c)
+func (s *UserSrv) Register(ctx *gin.Context, req *types.UserServiceReq) (resp response.TokenDataResp, err error) {
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -30,27 +30,31 @@ func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) error {
 			// 密码加密存储
 			if err = user.SetPassword(req.Password); err != nil {
 				util.LogrusObj.Info(err)
-				return err
+				return
 			}
 
 			if err = userDao.CreateUser(user); err != nil {
 				util.LogrusObj.Info(err)
-				return err
+				return
 			}
 
-			return nil
+			token, _ := util.GenerateToken(user.ID, req.UserName)
+			return response.TokenDataResp{
+				User:  response.BuildUserResp(user),
+				Token: token,
+			}, nil
 		}
-		return err
+		return
 	}
 
 	err = errors.New("用户已存在")
 	util.LogrusObj.Infoln(err)
-	return err
+	return
 }
 
 // Login 用户登陆函数
-func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp types.TokenDataResp, err error) {
-	userDao := dao.NewUserDao(c)
+func (s *UserSrv) Login(ctx *gin.Context, req *types.UserServiceReq) (resp response.TokenDataResp, err error) {
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err = errors.New("用户不存在")
@@ -69,29 +73,18 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp type
 		return
 	}
 
-	userResp := &types.UserResp{
-		ID:       user.ID,
-		UserName: user.UserName,
-		Kitchen:  user.Kitchen,
-		Count:    user.GetCount(),
-		CreateAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
-	}
-	return types.TokenDataResp{
-		User:  userResp,
+	return response.TokenDataResp{
+		User:  response.BuildUserResp(user),
 		Token: token,
 	}, nil
 }
 
 // UpdatePwd 用户更改密码
-func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) error {
-	// 找到用户
-	userInfo, err := controller.GetUserInfo(c)
-	if err != nil {
-		util.LogrusObj.Info(err)
-		return err
-	}
+func (s *UserSrv) UpdatePwd(ctx *gin.Context, req *types.UserUpdatePwdReq) error {
+	claims, _ := ctx.Get("claims")
+	userInfo := claims.(*util.Claims)
 
-	userDao := dao.NewUserDao(c)
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
 
 	if err != nil {
@@ -99,20 +92,8 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) erro
 		return err
 	}
 
-	if req.OriginPwd == "" {
-		err = errors.New("原密码不能为空")
-		util.LogrusObj.Info(err)
-		return err
-	}
-
 	if !user.CheckPassword(req.OriginPwd) {
 		err = errors.New("原密码错误")
-		util.LogrusObj.Info(err)
-		return err
-	}
-
-	if req.UpdatePwd == "" {
-		err = errors.New("更改的密码不能为空")
 		util.LogrusObj.Info(err)
 		return err
 	}
@@ -132,15 +113,11 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) erro
 }
 
 // UpdateInfo 用户更改信息
-func (s *UserSrv) UpdateInfo(c context.Context, req *types.UserUpdateInfoReq) error {
-	// 找到用户
-	userInfo, err := controller.GetUserInfo(c)
-	if err != nil {
-		util.LogrusObj.Info(err)
-		return err
-	}
+func (s *UserSrv) UpdateInfo(ctx *gin.Context, req *types.UserUpdateInfoReq) error {
+	claims, _ := ctx.Get("claims")
+	userInfo := claims.(*util.Claims)
 
-	userDao := dao.NewUserDao(c)
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
@@ -170,22 +147,12 @@ func (s *UserSrv) UpdateInfo(c context.Context, req *types.UserUpdateInfoReq) er
 }
 
 // UserInfo 得到用户的信息
-func (s *UserSrv) UserInfo(c context.Context) (resp *types.UserResp, err error) {
-	// 找到用户
-	userInfo, err := controller.GetUserInfo(c)
-	if err != nil {
-		util.LogrusObj.Infoln(err)
-		return
-	}
+func (s *UserSrv) UserInfo(ctx *gin.Context) (resp *response.UserResp, err error) {
+	claims, _ := ctx.Get("claims")
+	userInfo := claims.(*util.Claims)
 
-	userDao := dao.NewUserDao(c)
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
 
-	return &types.UserResp{
-		ID:       user.ID,
-		UserName: user.UserName,
-		Kitchen:  user.Kitchen,
-		Count:    user.GetCount(),
-		CreateAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
-	}, nil
+	return response.BuildUserResp(user), nil
 }

@@ -53,8 +53,8 @@ go run main.go
 ├─logs                   # 日志打印
 ├─middleware             # 中间件
 ├─pkg
-│  ├─controller          # 处理响应
-│  ├─errMsg              # 封装错误码
+│  ├─errCode             # 封装错误码
+│  ├─response            # 封装统一的响应结构体和响应函数
 │  └─util                # 工具函数
 ├─repository
 │  ├─cache               # 缓存操作
@@ -63,8 +63,7 @@ go run main.go
 │      └─model           # 数据库模型
 ├─router                 # 路由逻辑处理
 ├─service                # 接口函数的实现
-└─types                  # 将数据序列化为 json 的函数，便于返回给前端
-
+└─types                  # 定于请求结构体，便于前端发送数据
 ```
 
 ## 【重要】配置项目

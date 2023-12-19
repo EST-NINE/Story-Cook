@@ -41,7 +41,7 @@ func (dao *StoryDao) CreateStory(story *model.Story) error {
 }
 
 // ListStory 得到故事列表
-func (dao *StoryDao) ListStory(page, limit int, uid uint) (stories []model.Story, total int64, err error) {
+func (dao *StoryDao) ListStory(page, limit int, uid uint) (stories []*model.Story, total int64, err error) {
 	err = dao.DB.Model(&model.Story{}).Preload("User").Where("uid = ?", uid).
 		Count(&total).
 		Order("created_at DESC").
@@ -80,7 +80,8 @@ func (dao *StoryDao) UpdateStory(uid uint, req *types.UpdateStoryReq) error {
 	return dao.Save(story).Error
 }
 
-func (dao *StoryDao) ListStoryByMood(uid uint, req *types.ListStoryByMoodReq) (stories []model.Story, total int64, err error) {
+// ListStoryByMood 根据mood分类查找story
+func (dao *StoryDao) ListStoryByMood(uid uint, req *types.ListStoryByMoodReq) (stories []*model.Story, total int64, err error) {
 	err = dao.DB.Model(&model.Story{}).Preload("User").Where("uid = ? AND mood = ?", uid, req.Mood).
 		Count(&total).
 		Order("created_at DESC").
@@ -91,7 +92,8 @@ func (dao *StoryDao) ListStoryByMood(uid uint, req *types.ListStoryByMoodReq) (s
 	return
 }
 
-func (dao *StoryDao) ListStoryByTime(uid uint, req *types.ListStoryByTimeReq) (stories []model.Story, total int64, err error) {
+// ListStoryByTime 根据time分类查找story
+func (dao *StoryDao) ListStoryByTime(uid uint, req *types.ListStoryByTimeReq) (stories []*model.Story, total int64, err error) {
 	// 获取当前时间
 	currentTime := time.Now()
 	// 设置时间查询的起始时间

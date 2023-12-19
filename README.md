@@ -63,7 +63,7 @@ go run main.go
 │      └─model           # 数据库模型
 ├─router                 # 路由逻辑处理
 ├─service                # 接口函数的实现
-└─types                  # 将数据序列化为 json 的函数，便于返回给前端
+└─types                  # 定于请求结构体，便于前端发送数据
 ```
 
 ## 【重要】配置项目

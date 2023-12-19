@@ -1,6 +1,8 @@
 package controller
 
-import "SparkForge/pkg/errMsg"
+import (
+	"SparkForge/pkg/errCode"
+)
 
 // Response 基础序列化器
 type Response struct {
@@ -10,46 +12,36 @@ type Response struct {
 	Error  string      `json:"error"`
 }
 
-// ErrorResp 错误返回
-func ErrorResp(err error, data string, code ...int) *Response {
-	status := errMsg.ERROR
-	if code != nil {
-		status = code[0]
-	}
-
-	return &Response{
-		Status: status,
-		Msg:    errMsg.GetMsg(status),
-		Data:   data,
-		Error:  err.Error(),
-	}
-}
-
 // SuccessResp 成功返回
-func SuccessResp(code ...int) *Response {
-	status := errMsg.SUCCESS
-	if code != nil {
-		status = code[0]
-	}
-
+func SuccessResp() *Response {
 	return &Response{
-		Status: status,
+		Status: errCode.SUCCESS,
 		Data:   "操作成功",
-		Msg:    errMsg.GetMsg(status),
+		Msg:    errCode.GetMsg(errCode.SUCCESS),
 	}
 }
 
 // SuccessWithDataResp 带data成功返回
-func SuccessWithDataResp(data interface{}, code ...int) *Response {
-	status := errMsg.SUCCESS
+func SuccessWithDataResp(data interface{}) *Response {
+	return &Response{
+		Status: errCode.SUCCESS,
+		Data:   data,
+		Msg:    errCode.GetMsg(errCode.SUCCESS),
+	}
+}
+
+// ErrorResp 错误返回
+func ErrorResp(err error, data string, code ...int) *Response {
+	status := errCode.ERROR
 	if code != nil {
 		status = code[0]
 	}
 
 	return &Response{
 		Status: status,
+		Msg:    errCode.GetMsg(status),
 		Data:   data,
-		Msg:    errMsg.GetMsg(status),
+		Error:  err.Error(),
 	}
 }
 

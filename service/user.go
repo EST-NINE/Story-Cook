@@ -99,20 +99,8 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) erro
 		return err
 	}
 
-	if req.OriginPwd == "" {
-		err = errors.New("原密码不能为空")
-		util.LogrusObj.Info(err)
-		return err
-	}
-
 	if !user.CheckPassword(req.OriginPwd) {
 		err = errors.New("原密码错误")
-		util.LogrusObj.Info(err)
-		return err
-	}
-
-	if req.UpdatePwd == "" {
-		err = errors.New("更改的密码不能为空")
 		util.LogrusObj.Info(err)
 		return err
 	}

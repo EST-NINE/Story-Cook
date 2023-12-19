@@ -86,7 +86,7 @@ func getStoryFromSpark(keywords string, mood string) string {
 		panic(readResp(resp) + err.Error())
 	}
 
-	prompt := fmt.Sprintf("请将我下面给出的几个关键词串成一个搞怪的故事，字数请限制在200个中文字符左右（注意：若不足200字请进行扩充，若超过200字请进行删减，不管关键词是什么一定要搞怪，令人忍俊不禁）关键词：%s+%s", keywords, mood)
+	prompt := fmt.Sprintf("你是一个故事生成器，请根据以下要求用非正式语言写一个200中文字符左右的脑洞大开的分成多段的故事。关键词 %s。情感基调：%s。结局：意料之外，情理之中。（注意：若故事不足200字请进行扩充，若超过200字请进行删减。故事若只有一段请将其分成多段且不提示段数）", keywords, mood)
 	// fmt.Println(prompt)
 	go func() {
 

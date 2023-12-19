@@ -15,17 +15,17 @@ func NewRouter() *gin.Engine {
 	r := gin.Default()
 
 	r.Use(middleware.CORS())
-	v1 := r.Group("api/v1")
+	public := r.Group("api/v1")
 	{
-		v1.GET("ping", func(ctx *gin.Context) {
+		public.GET("ping", func(ctx *gin.Context) {
 			ctx.JSON(http.StatusOK, "pong!")
 		})
 
 		// 用户操作
-		v1.POST("user/register", api.UserRegisterHandler)
-		v1.POST("user/login", api.UserLoginHandler)
+		public.POST("user/register", api.UserRegisterHandler)
+		public.POST("user/login", api.UserLoginHandler)
 
-		authed := v1.Group("/") // 登录保护
+		authed := public.Group("/") // 登录保护
 		authed.Use(middleware.JWT())
 		{
 			// 用户操作

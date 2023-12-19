@@ -3,13 +3,12 @@ package service
 import (
 	"SparkForge/repository/db/dao"
 	"SparkForge/repository/db/model"
-	"context"
 	"errors"
 	"fmt"
+	"github.com/gin-gonic/gin"
 
 	"gorm.io/gorm"
 
-	"SparkForge/pkg/controller"
 	"SparkForge/pkg/util"
 	"SparkForge/types"
 )
@@ -18,8 +17,8 @@ type UserSrv struct {
 }
 
 // Register 注册用户
-func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) error {
-	userDao := dao.NewUserDao(c)
+func (s *UserSrv) Register(ctx *gin.Context, req *types.UserServiceReq) error {
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -49,8 +48,8 @@ func (s *UserSrv) Register(c context.Context, req *types.UserServiceReq) error {
 }
 
 // Login 用户登陆函数
-func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp types.TokenDataResp, err error) {
-	userDao := dao.NewUserDao(c)
+func (s *UserSrv) Login(ctx *gin.Context, req *types.UserServiceReq) (resp types.TokenDataResp, err error) {
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err = errors.New("用户不存在")
@@ -83,15 +82,12 @@ func (s *UserSrv) Login(c context.Context, req *types.UserServiceReq) (resp type
 }
 
 // UpdatePwd 用户更改密码
-func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) error {
+func (s *UserSrv) UpdatePwd(ctx *gin.Context, req *types.UserUpdatePwdReq) error {
 	// 找到用户
-	userInfo, err := controller.GetUserInfo(c)
-	if err != nil {
-		util.LogrusObj.Info(err)
-		return err
-	}
+	claims, _ := ctx.Get("claims")
+	userInfo := claims.(*util.Claims)
 
-	userDao := dao.NewUserDao(c)
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
 
 	if err != nil {
@@ -120,15 +116,12 @@ func (s *UserSrv) UpdatePwd(c context.Context, req *types.UserUpdatePwdReq) erro
 }
 
 // UpdateInfo 用户更改信息
-func (s *UserSrv) UpdateInfo(c context.Context, req *types.UserUpdateInfoReq) error {
+func (s *UserSrv) UpdateInfo(ctx *gin.Context, req *types.UserUpdateInfoReq) error {
 	// 找到用户
-	userInfo, err := controller.GetUserInfo(c)
-	if err != nil {
-		util.LogrusObj.Info(err)
-		return err
-	}
+	claims, _ := ctx.Get("claims")
+	userInfo := claims.(*util.Claims)
 
-	userDao := dao.NewUserDao(c)
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
 	if err != nil {
 		util.LogrusObj.Infoln(err)
@@ -158,15 +151,12 @@ func (s *UserSrv) UpdateInfo(c context.Context, req *types.UserUpdateInfoReq) er
 }
 
 // UserInfo 得到用户的信息
-func (s *UserSrv) UserInfo(c context.Context) (resp *types.UserResp, err error) {
+func (s *UserSrv) UserInfo(ctx *gin.Context) (resp *types.UserResp, err error) {
 	// 找到用户
-	userInfo, err := controller.GetUserInfo(c)
-	if err != nil {
-		util.LogrusObj.Infoln(err)
-		return
-	}
+	claims, _ := ctx.Get("claims")
+	userInfo := claims.(*util.Claims)
 
-	userDao := dao.NewUserDao(c)
+	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
 
 	return &types.UserResp{

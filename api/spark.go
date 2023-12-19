@@ -53,7 +53,8 @@ func GenerateStoryHandler(ctx *gin.Context) {
 		return
 	}
 
-	userInfo, err := controller.GetUserInfo(ctx.Request.Context())
+	claims, _ := ctx.Get("claims")
+	userInfo := claims.(*util.Claims)
 	user, err := dao.NewUserDao(ctx).FindUserByUserId(userInfo.Id)
 
 	count := user.GetCount()

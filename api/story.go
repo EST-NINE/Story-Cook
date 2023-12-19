@@ -30,7 +30,7 @@ func CreateStoryHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	err := storySrv.CreateStory(ctx.Request.Context(), &req)
+	err := storySrv.CreateStory(ctx, &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -57,7 +57,7 @@ func ListStoryHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	resp, total, err := storySrv.ListStory(ctx.Request.Context(), &req)
+	resp, total, err := storySrv.ListStory(ctx, &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -81,7 +81,7 @@ func DeleteStoryHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	err := storySrv.DeleteStory(ctx.Request.Context(), &req)
+	err := storySrv.DeleteStory(ctx, &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -108,7 +108,7 @@ func UpdateStoryHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	resp, err := storySrv.UpdateStory(ctx.Request.Context(), &req)
+	resp, err := storySrv.UpdateStory(ctx, &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -135,7 +135,7 @@ func ListStoryByMoodHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	resp, total, err := storySrv.ListStoryByMood(ctx.Request.Context(), &req)
+	resp, total, err := storySrv.ListStoryByMood(ctx, &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return
@@ -162,7 +162,7 @@ func ListStoryByTimeHandler(ctx *gin.Context) {
 
 	// 处理响应
 	storySrv := service.StorySrv{}
-	resp, total, err := storySrv.ListStoryByTime(ctx.Request.Context(), &req)
+	resp, total, err := storySrv.ListStoryByTime(ctx, &req)
 	if err != nil {
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return

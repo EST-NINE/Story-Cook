@@ -14,8 +14,3 @@ type UserUpdateInfoReq struct {
 	UpdateName string `json:"update_name" example:"John Doe"`
 	Kitchen    string `json:"kitchen" example:"John Doe的厨房"`
 }
-
-type TokenDataResp struct {
-	User  interface{} `json:"user"`
-	Token string      `json:"token"`
-}

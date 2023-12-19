@@ -6,11 +6,11 @@ import (
 )
 
 func UserCountKey(id uint) string {
-	return fmt.Sprintf("UserCount:%s", strconv.Itoa(int(id)))
+	return fmt.Sprintf("UserID:%s", strconv.Itoa(int(id)))
 }
 
 func DeleteUserCountKeys() error {
-	keys, err := RedisClient.Keys("UserCount:*").Result()
+	keys, err := RedisClient.Keys("UserID:*").Result()
 	if err != nil {
 		return err
 	}

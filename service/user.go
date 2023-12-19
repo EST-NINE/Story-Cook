@@ -18,7 +18,7 @@ type UserSrv struct {
 }
 
 // Register 注册用户
-func (s *UserSrv) Register(ctx *gin.Context, req *types.UserServiceReq) (resp types.TokenDataResp, err error) {
+func (s *UserSrv) Register(ctx *gin.Context, req *types.UserServiceReq) (resp response.TokenDataResp, err error) {
 	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if err != nil {
@@ -39,7 +39,7 @@ func (s *UserSrv) Register(ctx *gin.Context, req *types.UserServiceReq) (resp ty
 			}
 
 			token, _ := util.GenerateToken(user.ID, req.UserName)
-			return types.TokenDataResp{
+			return response.TokenDataResp{
 				User:  response.BuildUserResp(user),
 				Token: token,
 			}, nil
@@ -53,7 +53,7 @@ func (s *UserSrv) Register(ctx *gin.Context, req *types.UserServiceReq) (resp ty
 }
 
 // Login 用户登陆函数
-func (s *UserSrv) Login(ctx *gin.Context, req *types.UserServiceReq) (resp types.TokenDataResp, err error) {
+func (s *UserSrv) Login(ctx *gin.Context, req *types.UserServiceReq) (resp response.TokenDataResp, err error) {
 	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -73,7 +73,7 @@ func (s *UserSrv) Login(ctx *gin.Context, req *types.UserServiceReq) (resp types
 		return
 	}
 
-	return types.TokenDataResp{
+	return response.TokenDataResp{
 		User:  response.BuildUserResp(user),
 		Token: token,
 	}, nil
@@ -81,7 +81,6 @@ func (s *UserSrv) Login(ctx *gin.Context, req *types.UserServiceReq) (resp types
 
 // UpdatePwd 用户更改密码
 func (s *UserSrv) UpdatePwd(ctx *gin.Context, req *types.UserUpdatePwdReq) error {
-	// 找到用户
 	claims, _ := ctx.Get("claims")
 	userInfo := claims.(*util.Claims)
 
@@ -115,7 +114,6 @@ func (s *UserSrv) UpdatePwd(ctx *gin.Context, req *types.UserUpdatePwdReq) error
 
 // UpdateInfo 用户更改信息
 func (s *UserSrv) UpdateInfo(ctx *gin.Context, req *types.UserUpdateInfoReq) error {
-	// 找到用户
 	claims, _ := ctx.Get("claims")
 	userInfo := claims.(*util.Claims)
 
@@ -150,7 +148,6 @@ func (s *UserSrv) UpdateInfo(ctx *gin.Context, req *types.UserUpdateInfoReq) err
 
 // UserInfo 得到用户的信息
 func (s *UserSrv) UserInfo(ctx *gin.Context) (resp *response.UserResp, err error) {
-	// 找到用户
 	claims, _ := ctx.Get("claims")
 	userInfo := claims.(*util.Claims)
 

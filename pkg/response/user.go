@@ -10,6 +10,11 @@ type UserResp struct {
 	Count    uint64 `json:"count"`     // 当天剩余合成次数
 }
 
+type TokenDataResp struct {
+	User  interface{} `json:"user"`
+	Token string      `json:"token"`
+}
+
 func BuildUserResp(user *model.User) *UserResp {
 	return &UserResp{
 		ID:       user.ID,

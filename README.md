@@ -53,8 +53,8 @@ go run main.go
 ├─logs                   # 日志打印
 ├─middleware             # 中间件
 ├─pkg
-│  ├─controller          # 处理响应
-│  ├─errMsg              # 封装错误码
+│  ├─errCode             # 封装错误码
+│  ├─response            # 封装统一的响应结构体和响应函数
 │  └─util                # 工具函数
 ├─repository
 │  ├─cache               # 缓存操作

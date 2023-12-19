@@ -19,7 +19,7 @@ func NewMenuDao(c context.Context) *MenuDao {
 }
 
 // SelectMenu 判断是否为彩蛋
-func (dao *MenuDao) SelectMenu(keywords string) (menu model.Menu, err error) {
+func (dao *MenuDao) SelectMenu(keywords string) (menu *model.Menu, err error) {
 	err = dao.DB.Model(&model.Menu{}).Where("keywords = ?", keywords).First(&menu).Error
 	return
 }
@@ -42,7 +42,7 @@ func (dao *MenuDao) FindUserMenuByKeywordsAndUserId(uid uint, keywords string) (
 }
 
 // ListUserMenu 得到成就列表
-func (dao *MenuDao) ListUserMenu(page, limit int, uid uint) (userMenus []model.UserMenu, total int64, err error) {
+func (dao *MenuDao) ListUserMenu(page, limit int, uid uint) (userMenus []*model.UserMenu, total int64, err error) {
 	err = dao.DB.Model(&model.UserMenu{}).Preload("User").Where("uid = ?", uid).
 		Count(&total).
 		Order("created_at DESC").

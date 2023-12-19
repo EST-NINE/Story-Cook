@@ -13,10 +13,3 @@ type ListUserMenuReq struct {
 	Page  int `json:"page" example:"1"`
 	Limit int `json:"limit" example:"10"`
 }
-
-type MenuResp struct {
-	ID       uint   `json:"id"`
-	Keywords string `json:"keywords"`
-	Content  string `json:"content"`
-	CreateAt string `json:"create_at"`
-}

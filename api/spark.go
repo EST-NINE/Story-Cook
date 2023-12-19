@@ -18,7 +18,7 @@ import (
 	"github.com/gorilla/websocket"
 
 	"SparkForge/config"
-	"SparkForge/pkg/controller"
+	"SparkForge/pkg/response"
 	"SparkForge/pkg/util"
 	"SparkForge/types"
 )
@@ -37,14 +37,13 @@ type Message struct {
 var hostUrl = "wss://spark-api.xf-yun.com/v3.1/chat"
 
 // GenerateStoryHandler 生成故事(不保存到历史记录)
-//
-//	@Summary		生成故事(不保存到历史记录)
-//	@Description	生成故事(不保存到历史记录)
-//	@Tags			历史记录操作
-//	@Produce		json
-//	@Param			story	body		types.GenerateStoryReq	true	"生成故事请求体"
-//	@Param Authorization header string true "身份验证令牌"
-//	@Router			/story/generate [post]
+// @Summary		生成故事(不保存到历史记录)
+// @Description	生成故事(不保存到历史记录)
+// @Tags			历史记录操作
+// @Produce		json
+// @Param			story	body		types.GenerateStoryReq	true	"生成故事请求体"
+// @Param Authorization header string true "身份验证令牌"
+// @Router			/story/generate [post]
 func GenerateStoryHandler(ctx *gin.Context) {
 	var req types.GenerateStoryReq
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -71,7 +70,7 @@ func GenerateStoryHandler(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, controller.SuccessWithDataResp(getStoryFromSpark(req.Keywords, req.Mood)))
+	ctx.JSON(http.StatusOK, response.SuccessWithData(getStoryFromSpark(req.Keywords, req.Mood)))
 }
 
 // getStoryFromSpark 根据关键词从星火api获取故事

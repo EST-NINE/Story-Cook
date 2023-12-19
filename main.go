@@ -34,7 +34,7 @@ func init() {
 
 	go func() {
 		c := cron.New()
-		_ = c.AddFunc("0 0 0 * * *", func() { _ = cache.DeleteUserCountKeys() })
+		_ = c.AddFunc("0 0 0 * * *", func() { _ = cache.DeleteUserCountKeys() }) // 每天零点更新可调用api的次数
 		c.Start()
 		select {}
 	}()

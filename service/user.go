@@ -1,6 +1,7 @@
 package service
 
 import (
+	"SparkForge/pkg/response"
 	"SparkForge/repository/db/dao"
 	"SparkForge/repository/db/model"
 	"errors"
@@ -17,7 +18,7 @@ type UserSrv struct {
 }
 
 // Register 注册用户
-func (s *UserSrv) Register(ctx *gin.Context, req *types.UserServiceReq) error {
+func (s *UserSrv) Register(ctx *gin.Context, req *types.UserServiceReq) (resp types.TokenDataResp, err error) {
 	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserName(req.UserName)
 	if err != nil {
@@ -29,22 +30,26 @@ func (s *UserSrv) Register(ctx *gin.Context, req *types.UserServiceReq) error {
 			// 密码加密存储
 			if err = user.SetPassword(req.Password); err != nil {
 				util.LogrusObj.Info(err)
-				return err
+				return
 			}
 
 			if err = userDao.CreateUser(user); err != nil {
 				util.LogrusObj.Info(err)
-				return err
+				return
 			}
 
-			return nil
+			token, _ := util.GenerateToken(user.ID, req.UserName)
+			return types.TokenDataResp{
+				User:  response.BuildUserResp(user),
+				Token: token,
+			}, nil
 		}
-		return err
+		return
 	}
 
 	err = errors.New("用户已存在")
 	util.LogrusObj.Infoln(err)
-	return err
+	return
 }
 
 // Login 用户登陆函数
@@ -68,15 +73,8 @@ func (s *UserSrv) Login(ctx *gin.Context, req *types.UserServiceReq) (resp types
 		return
 	}
 
-	userResp := &types.UserResp{
-		ID:       user.ID,
-		UserName: user.UserName,
-		Kitchen:  user.Kitchen,
-		Count:    user.GetCount(),
-		CreateAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
-	}
 	return types.TokenDataResp{
-		User:  userResp,
+		User:  response.BuildUserResp(user),
 		Token: token,
 	}, nil
 }
@@ -151,7 +149,7 @@ func (s *UserSrv) UpdateInfo(ctx *gin.Context, req *types.UserUpdateInfoReq) err
 }
 
 // UserInfo 得到用户的信息
-func (s *UserSrv) UserInfo(ctx *gin.Context) (resp *types.UserResp, err error) {
+func (s *UserSrv) UserInfo(ctx *gin.Context) (resp *response.UserResp, err error) {
 	// 找到用户
 	claims, _ := ctx.Get("claims")
 	userInfo := claims.(*util.Claims)
@@ -159,11 +157,5 @@ func (s *UserSrv) UserInfo(ctx *gin.Context) (resp *types.UserResp, err error) {
 	userDao := dao.NewUserDao(ctx)
 	user, err := userDao.FindUserByUserId(userInfo.Id)
 
-	return &types.UserResp{
-		ID:       user.ID,
-		UserName: user.UserName,
-		Kitchen:  user.Kitchen,
-		Count:    user.GetCount(),
-		CreateAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
-	}, nil
+	return response.BuildUserResp(user), nil
 }

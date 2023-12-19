@@ -1,6 +1,7 @@
 package service
 
 import (
+	"SparkForge/pkg/response"
 	"SparkForge/repository/db/dao"
 	"SparkForge/repository/db/model"
 	"errors"
@@ -49,7 +50,7 @@ func (s *StorySrv) CreateStory(ctx *gin.Context, req *types.CreateStoryReq) erro
 }
 
 // ListStory 得到对应用户的故事
-func (s *StorySrv) ListStory(ctx *gin.Context, req *types.ListStoryReq) (resp []*types.StoryResp, total int64, err error) {
+func (s *StorySrv) ListStory(ctx *gin.Context, req *types.ListStoryReq) (resp []*response.StoryResp, total int64, err error) {
 	claims, _ := ctx.Get("claims")
 	userInfo := claims.(*util.Claims)
 
@@ -59,16 +60,9 @@ func (s *StorySrv) ListStory(ctx *gin.Context, req *types.ListStoryReq) (resp []
 		return
 	}
 
-	listStoryResp := make([]*types.StoryResp, 0)
+	listStoryResp := make([]*response.StoryResp, 0)
 	for _, story := range stories {
-		listStoryResp = append(listStoryResp, &types.StoryResp{
-			ID:        story.ID,
-			Title:     story.Title,
-			Mood:      story.Mood,
-			Keywords:  story.Keywords,
-			Content:   story.Content,
-			CreatedAt: story.CreatedAt.Format("2006-01-02 15:04:05"),
-		})
+		listStoryResp = append(listStoryResp, response.BuildStoryResp(story))
 	}
 
 	return listStoryResp, total, nil
@@ -89,7 +83,7 @@ func (s *StorySrv) DeleteStory(ctx *gin.Context, req *types.DeleteStoryReq) erro
 }
 
 // UpdateStory 更新故事
-func (s *StorySrv) UpdateStory(ctx *gin.Context, req *types.UpdateStoryReq) (resp *types.StoryResp, err error) {
+func (s *StorySrv) UpdateStory(ctx *gin.Context, req *types.UpdateStoryReq) (resp *response.StoryResp, err error) {
 	claims, _ := ctx.Get("claims")
 	userInfo := claims.(*util.Claims)
 
@@ -111,18 +105,11 @@ func (s *StorySrv) UpdateStory(ctx *gin.Context, req *types.UpdateStoryReq) (res
 		util.LogrusObj.Infoln(err)
 		return
 	}
-	return &types.StoryResp{
-		ID:        story.ID,
-		Title:     story.Title,
-		Mood:      story.Mood,
-		Keywords:  story.Keywords,
-		Content:   story.Content,
-		CreatedAt: story.CreatedAt.Format("2006-01-02 15:04:05"),
-	}, nil
+	return response.BuildStoryResp(story), nil
 }
 
 // ListStoryByMood 根据mood分类查找story
-func (s *StorySrv) ListStoryByMood(ctx *gin.Context, req *types.ListStoryByMoodReq) (resp []*types.StoryResp, total int64, err error) {
+func (s *StorySrv) ListStoryByMood(ctx *gin.Context, req *types.ListStoryByMoodReq) (resp []*response.StoryResp, total int64, err error) {
 	claims, _ := ctx.Get("claims")
 	userInfo := claims.(*util.Claims)
 
@@ -132,23 +119,16 @@ func (s *StorySrv) ListStoryByMood(ctx *gin.Context, req *types.ListStoryByMoodR
 		return
 	}
 
-	listStoryResp := make([]*types.StoryResp, 0)
+	listStoryResp := make([]*response.StoryResp, 0)
 	for _, story := range stories {
-		listStoryResp = append(listStoryResp, &types.StoryResp{
-			ID:        story.ID,
-			Title:     story.Title,
-			Mood:      story.Mood,
-			Keywords:  story.Keywords,
-			Content:   story.Content,
-			CreatedAt: story.CreatedAt.Format("2006-01-02 15:04:05"),
-		})
+		listStoryResp = append(listStoryResp, response.BuildStoryResp(story))
 	}
 
 	return listStoryResp, total, nil
 }
 
 // ListStoryByTime 根据time分类查找story
-func (s *StorySrv) ListStoryByTime(ctx *gin.Context, req *types.ListStoryByTimeReq) (resp []*types.StoryResp, total int64, err error) {
+func (s *StorySrv) ListStoryByTime(ctx *gin.Context, req *types.ListStoryByTimeReq) (resp []*response.StoryResp, total int64, err error) {
 	claims, _ := ctx.Get("claims")
 	userInfo := claims.(*util.Claims)
 
@@ -158,16 +138,9 @@ func (s *StorySrv) ListStoryByTime(ctx *gin.Context, req *types.ListStoryByTimeR
 		return
 	}
 
-	listStoryResp := make([]*types.StoryResp, 0)
+	listStoryResp := make([]*response.StoryResp, 0)
 	for _, story := range stories {
-		listStoryResp = append(listStoryResp, &types.StoryResp{
-			ID:        story.ID,
-			Title:     story.Title,
-			Mood:      story.Mood,
-			Keywords:  story.Keywords,
-			Content:   story.Content,
-			CreatedAt: story.CreatedAt.Format("2006-01-02 15:04:05"),
-		})
+		listStoryResp = append(listStoryResp, response.BuildStoryResp(story))
 	}
 
 	return listStoryResp, total, nil

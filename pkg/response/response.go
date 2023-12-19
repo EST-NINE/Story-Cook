@@ -1,4 +1,4 @@
-package controller
+package response
 
 import (
 	"SparkForge/pkg/errCode"
@@ -12,8 +12,8 @@ type Response struct {
 	Error  string      `json:"error"`
 }
 
-// SuccessResp 成功返回
-func SuccessResp() *Response {
+// Success 成功返回
+func Success() *Response {
 	return &Response{
 		Status: errCode.SUCCESS,
 		Data:   "操作成功",
@@ -21,8 +21,8 @@ func SuccessResp() *Response {
 	}
 }
 
-// SuccessWithDataResp 带data成功返回
-func SuccessWithDataResp(data interface{}) *Response {
+// SuccessWithData 带data成功返回
+func SuccessWithData(data interface{}) *Response {
 	return &Response{
 		Status: errCode.SUCCESS,
 		Data:   data,
@@ -30,8 +30,8 @@ func SuccessWithDataResp(data interface{}) *Response {
 	}
 }
 
-// ErrorResp 错误返回
-func ErrorResp(err error, data string, code ...int) *Response {
+// Error 错误返回
+func Error(err error, data string, code ...int) *Response {
 	status := errCode.ERROR
 	if code != nil {
 		status = code[0]
@@ -45,17 +45,17 @@ func ErrorResp(err error, data string, code ...int) *Response {
 	}
 }
 
-// DataListResp 带有总数的Data结构
-type DataListResp struct {
+// DataList 带有总数的Data结构
+type DataList struct {
 	Item  interface{} `json:"item"`
 	Total int64       `json:"total"`
 }
 
-// ListResp 带有总数的列表构建器
-func ListResp(items interface{}, total int64) *Response {
+// List 带有总数的列表构建器
+func List(items interface{}, total int64) *Response {
 	return &Response{
 		Status: 200,
-		Data: DataListResp{
+		Data: DataList{
 			Item:  items,
 			Total: total,
 		},

@@ -1,12 +1,10 @@
 package api
 
 import (
-	"SparkForge/repository/db/dao"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -14,13 +12,13 @@ import (
 	"strings"
 	"time"
 
+	"story-cook-be/config"
+	"story-cook-be/pkg/response"
+	"story-cook-be/pkg/util"
+	"story-cook-be/types"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-
-	"SparkForge/config"
-	"SparkForge/pkg/response"
-	"SparkForge/pkg/util"
-	"SparkForge/types"
 )
 
 type Message struct {
@@ -36,35 +34,9 @@ type Message struct {
 
 var hostUrl = "wss://spark-api.xf-yun.com/v3.1/chat"
 
-// GenerateStoryHandler 生成故事(不保存到历史记录)
-// @Summary		生成故事(不保存到历史记录)
-// @Description	生成故事(不保存到历史记录)
-// @Tags			历史记录操作
-// @Produce		json
-// @Param			story	body		types.GenerateStoryReq	true	"生成故事请求体"
-// @Param Authorization header string true "身份验证令牌"
-// @Router			/story/generate [post]
 func GenerateStoryHandler(ctx *gin.Context) {
 	var req types.GenerateStoryReq
 	if err := ctx.ShouldBind(&req); err != nil {
-		util.LogrusObj.Infoln(err)
-		ctx.JSON(http.StatusOK, ErrorResponse(err))
-		return
-	}
-
-	claims, _ := ctx.Get("claims")
-	userInfo := claims.(*util.Claims)
-	user, err := dao.NewUserDao(ctx).FindUserByUserId(userInfo.Id)
-
-	count := user.GetCount()
-	if count >= 5 {
-		err = errors.New("今日份次数已用完,请回味一下今日份故事吧")
-		ctx.JSON(http.StatusOK, ErrorResponse(err))
-		return
-	}
-
-	err = user.AddCount()
-	if err != nil {
 		util.LogrusObj.Infoln(err)
 		ctx.JSON(http.StatusOK, ErrorResponse(err))
 		return

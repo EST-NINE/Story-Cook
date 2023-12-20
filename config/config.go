@@ -2,18 +2,12 @@ package config
 
 import (
 	"gopkg.in/ini.v1"
-
-	"SparkForge/pkg/util"
+	"story-cook-be/pkg/util"
 )
 
 var (
 	AppMode  string
 	HttpPort string
-
-	RedisDb     string
-	RedisAddr   string
-	RedisPw     string
-	RedisDbName string
 
 	Db         string
 	DbHost     string
@@ -35,7 +29,6 @@ func InitFile() {
 	}
 	LoadServer(file)
 	LoadMysqlData(file)
-	LoadRedis(file)
 	LoadSpark(file)
 }
 
@@ -51,12 +44,6 @@ func LoadMysqlData(file *ini.File) {
 	DbUser = file.Section("mysql").Key("DbUser").String()
 	DbPassWord = file.Section("mysql").Key("DbPassWord").String()
 	DbName = file.Section("mysql").Key("DbName").String()
-}
-
-func LoadRedis(file *ini.File) {
-	RedisAddr = file.Section("redis").Key("RedisAddr").String()
-	RedisPw = file.Section("redis").Key("RedisPw").String()
-	RedisDbName = file.Section("redis").Key("RedisDbName").String()
 }
 
 func LoadSpark(file *ini.File) {

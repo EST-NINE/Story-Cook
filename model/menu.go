@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Menu struct {
 	gorm.Model
 	Keywords string
-	Content  string `gorm:"type:longtext"`
+	Content  string
 }
 
 type UserMenu struct {
@@ -13,5 +13,5 @@ type UserMenu struct {
 	User     User `gorm:"ForeignKey:Uid"`
 	Uid      uint `gorm:"not null"`
 	Keywords string
-	Content  string `gorm:"type:longtext"`
+	Content  string
 }

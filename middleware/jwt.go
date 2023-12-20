@@ -7,9 +7,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"SparkForge/pkg/errCode"
-	"SparkForge/pkg/response"
-	"SparkForge/pkg/util"
+	"story-cook-be/pkg/errCode"
+	"story-cook-be/pkg/response"
+	"story-cook-be/pkg/util"
 )
 
 // JWT token验证中间件

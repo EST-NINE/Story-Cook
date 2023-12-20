@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 
-	"SparkForge/pkg/errCode"
-	"SparkForge/pkg/response"
+	"story-cook-be/pkg/errCode"
+	"story-cook-be/pkg/response"
 )
 
 // ErrorResponse 返回错误信息

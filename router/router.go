@@ -1,13 +1,10 @@
 package router
 
 import (
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
+	"story-cook-be/api"
+	"story-cook-be/middleware"
 
-	"SparkForge/api"
-	_ "SparkForge/docs" // 导入自动生成的docs文档
-	"SparkForge/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,6 +32,7 @@ func NewRouter() *gin.Engine {
 			authed.PUT("user/password", api.UserUpdatePwdHandler)
 			authed.PUT("user/information", api.UpdateUserInfoHandler)
 			authed.GET("user/information", api.GetUserInfoHandler)
+			authed.PUT("user_count", api.UpdateUserCountHandler)
 
 			// 故事操作
 			authed.POST("story/generate", api.GenerateStoryHandler)
@@ -52,6 +50,5 @@ func NewRouter() *gin.Engine {
 		}
 	}
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return r
 }

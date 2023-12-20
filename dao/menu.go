@@ -1,8 +1,8 @@
 package dao
 
 import (
-	"SparkForge/repository/db/model"
 	"context"
+	"story-cook-be/model"
 
 	"gorm.io/gorm"
 )

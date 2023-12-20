@@ -3,22 +3,14 @@ package api
 import (
 	"net/http"
 
-	"github.com/gin-gonic/gin"
+	"story-cook-be/pkg/response"
+	"story-cook-be/pkg/util"
+	"story-cook-be/service"
+	"story-cook-be/types"
 
-	"SparkForge/pkg/response"
-	"SparkForge/pkg/util"
-	"SparkForge/service"
-	"SparkForge/types"
+	"github.com/gin-gonic/gin"
 )
 
-// SelectMenuHandler 判断是否触发彩蛋成就
-// @Summary		判断是否触发彩蛋成就
-// @Description	判断是否触发彩蛋成就
-// @Tags			彩蛋操作
-// @Produce		json
-// @Param			userMenu	body		types.SelectMenuReq	true	"判断彩蛋成就请求体"
-// @Param Authorization header string true "身份验证令牌"
-// @Router			/userMenu/isMenu [post]
 func SelectMenuHandler(ctx *gin.Context) {
 	var req types.SelectMenuReq
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -38,14 +30,6 @@ func SelectMenuHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response.SuccessWithData(resp))
 }
 
-// CreateUserMenuHandler 添加彩蛋成就
-// @Summary		添加彩蛋成就
-// @Description	添加彩蛋成就
-// @Tags			彩蛋操作
-// @Produce		json
-// @Param			userMenu	body		types.CreateUserMenuReq	true	"添加彩蛋成就请求体"
-// @Param Authorization header string true "身份验证令牌"
-// @Router			/userMenu/create [post]
 func CreateUserMenuHandler(ctx *gin.Context) {
 	var req types.CreateUserMenuReq
 	if err := ctx.ShouldBind(&req); err != nil {
@@ -65,14 +49,6 @@ func CreateUserMenuHandler(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, response.Success())
 }
 
-// ListUserMenuHandler 得到彩蛋成就列表
-// @Summary		得到彩蛋成就列表
-// @Description	得到彩蛋成就列表
-// @Tags			彩蛋操作
-// @Produce		json
-// @Param			userMenu	body		types.ListUserMenuReq	true	"彩蛋成就列表请求体"
-// @Param Authorization header string true "身份验证令牌"
-// @Router			/userMenu/list [post]
 func ListUserMenuHandler(ctx *gin.Context) {
 	var req types.ListUserMenuReq
 	if err := ctx.ShouldBind(&req); err != nil {

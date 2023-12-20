@@ -5,14 +5,14 @@ import (
 	"strings"
 	"time"
 
+	"story-cook-be/config"
+	"story-cook-be/pkg/util"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
-
-	"SparkForge/config"
-	"SparkForge/pkg/util"
 )
 
 var ormDB *gorm.DB

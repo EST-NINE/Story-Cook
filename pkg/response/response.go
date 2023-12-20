@@ -1,8 +1,6 @@
 package response
 
-import (
-	"SparkForge/pkg/errCode"
-)
+import "story-cook-be/pkg/errCode"
 
 // Response 基础序列化器
 type Response struct {

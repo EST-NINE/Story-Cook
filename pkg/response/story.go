@@ -1,6 +1,8 @@
 package response
 
-import "SparkForge/repository/db/model"
+import (
+	"story-cook-be/model"
+)
 
 type StoryResp struct {
 	ID        uint   `json:"id"`

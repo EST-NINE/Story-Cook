@@ -1,12 +1,8 @@
 package model
 
 import (
-	"SparkForge/pkg/util"
-	"SparkForge/repository/cache"
-	"golang.org/x/crypto/bcrypt"
-	"strconv"
-
 	"github.com/jinzhu/gorm"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // User 用户模型
@@ -35,24 +31,4 @@ func (user *User) SetPassword(password string) error {
 func (user *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(user.PasswordDigest), []byte(password))
 	return err == nil
-}
-
-// GetCount 得到当天的合成次数
-func (user *User) GetCount() uint64 {
-	result, err := cache.RedisClient.Get(cache.UserCountKey(user.ID)).Result()
-	if err != nil {
-		util.LogrusObj.Infoln(err)
-	}
-
-	count, err := strconv.ParseUint(result, 10, 64)
-	if err != nil {
-		util.LogrusObj.Infoln(err)
-	}
-
-	return count
-}
-
-// AddCount 添加次数
-func (user *User) AddCount() error {
-	return cache.RedisClient.Incr(cache.UserCountKey(user.ID)).Err()
 }

@@ -1,14 +1,13 @@
 package service
 
 import (
-	"SparkForge/pkg/response"
-	"SparkForge/repository/db/dao"
-	"SparkForge/repository/db/model"
 	"errors"
 	"github.com/gin-gonic/gin"
-
-	"SparkForge/pkg/util"
-	"SparkForge/types"
+	"story-cook-be/dao"
+	"story-cook-be/model"
+	"story-cook-be/pkg/response"
+	"story-cook-be/pkg/util"
+	"story-cook-be/types"
 )
 
 type StorySrv struct {
